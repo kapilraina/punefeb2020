@@ -3,3 +3,8 @@ spring:
     view:
       prefix: /
       suffix: .html
+  application:
+    name: productms
+server:
+  port: 9090
+  
