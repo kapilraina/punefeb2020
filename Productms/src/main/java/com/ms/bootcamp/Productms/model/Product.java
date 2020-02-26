@@ -9,18 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ms.bootcamp.Productms.ProductRepository;
 
 @Entity(name = "product")
 public class Product {
 
-	@Autowired
-	@Transient
-	private ProductRepository repo;
+	/*
+	 * @Autowired
+	 * 
+	 * @Transient private ProductRepository repo;
+	 */
 
 	@Id
 	// @GeneratedValue(strategy=GenerationType.AUTO)
@@ -34,10 +33,9 @@ public class Product {
 	// @JoinColumn(name = "id")
 	private List<ProductTag> tags = new ArrayList<ProductTag>();
 
-	public void saveProduct() {
-		repo.save(this);
-	}
-
+	/*
+	 * public void saveProduct() { repo.save(this); }
+	 */
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -90,10 +88,6 @@ public class Product {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public void setRepo(ProductRepository repo) {
-		this.repo = repo;
 	}
 
 	public List<ProductTag> getTags() {
