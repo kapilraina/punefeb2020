@@ -3,6 +3,7 @@ spring:
     config:
       uri:
       - ${productms.cloud.config.server:http://localhost:8888}
+      fail-fast: false
   application:
     name: productms
   profiles:
