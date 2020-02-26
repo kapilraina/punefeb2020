@@ -1,0 +1,4 @@
+spring:
+  profiles: prod
+
+greeting : Hello Prod

@@ -1,7 +1,7 @@
 package com.ms.bootcamp.Productms;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class GenericController {
 	@Autowired
 	MinionsLibrary library;
+	
+	@Value("${greeting:Hi}")
+	String greeting;
 
 	@RequestMapping(path = "/greet/{name}", method = RequestMethod.GET)
 	public String greet(@PathVariable String name) {
-		return "Hello - " + name;
+		return greeting + " " + name;
 
 	}
 

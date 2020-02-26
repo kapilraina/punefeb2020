@@ -20,7 +20,11 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         ddl-auto: create-drop
+  profiles:
+    active: stg
     
 server:
   port: 8081
+  
+#greeting: Hello
   
