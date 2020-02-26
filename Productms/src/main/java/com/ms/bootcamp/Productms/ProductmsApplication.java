@@ -18,7 +18,7 @@ public class ProductmsApplication {
 		return args -> {
 			System.out.println("BEAN COUNT : " + ctx.getBeanDefinitionCount());
 			for (int x = 0; x < ctx.getBeanDefinitionNames().length; x++) {
-				System.out.println(ctx.getBeanDefinitionNames()[x]);
+				//System.out.println(ctx.getBeanDefinitionNames()[x]);
 			}
 
 		};

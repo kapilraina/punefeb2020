@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Service
 public class GenericController {
 	@Autowired
 	MinionsLibrary library;
