@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: cloudconfigserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: C:\work\MSTraining\PuneFeb2020\labconfigs
+          order: 1
+          force-pull: true
+          deleteUntrackedBranches: true
+server:
+  port: 8888
+  

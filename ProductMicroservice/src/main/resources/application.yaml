@@ -3,28 +3,22 @@ spring:
     view:
       prefix: /
       suffix: .html
-  application:
-    name: productms
+
   h2:
     console:
       enabled: true
       path: /h2 
   datasource:
-    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:myDb3;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: 
-   # driver-class-name: org.h2.Driver
+    driver-class-name: org.h2.Driver
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         ddl-auto: create-drop
-#  profiles:
-#    active: stg
-    
+
 server:
   port: 8081
-  
-#greeting: Hello
-  
