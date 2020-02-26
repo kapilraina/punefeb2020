@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ms.bootcamp.Productms.ProductRepository;
 import com.ms.bootcamp.Productms.model.Product;
@@ -26,5 +27,10 @@ public class ProductService {
 		return repo.findById(id);
 	}
 
+	@Transactional
+	public void save(Product p)
+	{
+		repo.save(p);
+	}
 
 }
