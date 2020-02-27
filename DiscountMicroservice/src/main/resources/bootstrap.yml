@@ -1,0 +1,10 @@
+---
+spring:
+  profiles:
+    active: ${discountms.activeprofiles:dev}
+  application:
+    name: discountms
+  cloud:
+    config:
+      uri: ${discountms.zone.url:http://localhost:8888}
+      fail-fast: true

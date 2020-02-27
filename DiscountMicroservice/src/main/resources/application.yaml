@@ -1,0 +1,50 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+
+server:
+  port: ${discountms.server.port:0}
+ 
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: ${discountms.eureka.instance.leaseRenewalIntervalInSeconds}
+    leaseExpirationDurationInSeconds: ${discountms.eureka.instance.leaseExpirationDurationInSeconds}
+    preferIpAddress: true
+    metadata-map:
+      zone: ${discountms.eureka.instance.zone}
+  client:
+    registerWithEureka: ${discountms.eureka.client.registerWithEureka}
+    fetchRegistry: ${discountms.eureka.client.fetchRegistry}
+    prefer-same-zone-eureka: ${discountms.eureka.client.prefer-same-zone-eureka}
+    serviceUrl:
+      defaultZone: ${discountms.eureka.client.service-registry-url} 
+      
+hystrix:
+  metrics:
+    polling-interval-ms: ${discountms.hystrix.metrics.polling-interval-ms} 
+    enabled: true
+    rollingStats:
+      timeInMilliseconds: 5 #in a rolling window defined by(default: 10 seconds)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+  endpoint:
+    prometheus:
+      enabled: true
+  #server:
+  #  port: ${discountms.management.server.port:0}
+
+
+#logging:
+#  pattern: 
+#    level: ${logging.pattern.level}
+#  level:
+#    root: ${discountms.logging.root.level}
+#    com.spring.microservices: ${discountms.logging.app.level}
