@@ -1,0 +1,84 @@
+server:
+  port: 8080
+  
+spring:
+  sleuth:
+    trace-id128: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://zipkin:9411/
+  cloud:
+    gateway:
+      metrics:
+        enabled: true
+      routes:
+      - id: discoveryclient
+        uri: lb://discoveryclient
+        predicates:
+        - Path=/api/eureka/**
+        filters:
+        - RewritePath=/api/eureka/greeting, /getgreeting #5.21. SetPath GatewayFilter Factory
+       # - RewritePath=/api/eureka/(?<message>.*), /$\{message}
+        - name: Hystrix
+          args:
+            name: hystrixfallback
+            fallBackUri: forward:/greetingfallback
+        - AddResponseHeader=X-Special-Header, 97thingsprogrammersshouldknow
+        - AddRequestHeader=X-Request-Foo, Bar
+       # - TokenRelay=
+       # - RemoveRequestHeader=Cookie
+      - id: high-vol
+        uri: lb://cloudprocessor
+        predicates:
+        - Path=/cart
+        - Weight=group1, 8
+        filters:
+        - RewritePath=/cart, /cart/1
+      - id: low-vol
+        uri: lb://cloudprocessor
+        predicates:
+        - Path=/cart
+        - Weight=group1, 1
+        filters:
+        - RewritePath=/cart, /cart/2
+      - id: redirect
+        uri: lb://cloudprocessor
+        predicates:
+        - Path=/cart
+        - Weight=group1, 1
+        filters:
+        - RewritePath=/cart, /cart/r
+        - RedirectTo=302, http://localhost:8761/
+      - id: productms
+        uri: lb://productms
+        predicates:
+        - Path=/product/**
+      - id: minion
+        uri: lb://productms
+        predicates:
+        - Path=/minion/**
+        #- RewritePath=/product/(?<message>.*), /$\{message}
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: 2      #Resync interval
+    leaseExpirationDurationInSeconds: 5   #Eureka Expire time
+    preferIpAddress: true
+    metadata-map:
+      zone: zone_8761
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    prefer-same-zone-eureka: true
+    serviceUrl:
+      defaultZone: http://eurekaA:8761/eureka
+logging:
+  pattern:
+    level: "[%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p [%t] %C{2} - %m%n"
+  level:
+    root: ${apigateway.logging.level.root:ERROR}
+    org.springframework.web: ${apigateway.logging.level.web:ERROR}
+    org.springframework.web.HttpLogging: ${apigateway.logging.level.http:ERROR}
+
+apigateway.management.port: 8854
