@@ -3,6 +3,12 @@ spring:
     view:
       prefix: /
       suffix: .html
+  sleuth:
+    trace-id128: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411/
 
 server:
   port: ${discountms.server.port:0}
