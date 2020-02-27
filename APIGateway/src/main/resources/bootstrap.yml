@@ -1,0 +1,10 @@
+---
+spring:
+  profiles:
+    active: ${apigateway.activeprofiles:startup, local}
+  application:
+    name: apigateway
+  cloud:
+    config:
+      uri: ${configserver.url}
+      fail-fast: true
