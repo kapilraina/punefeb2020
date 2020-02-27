@@ -22,10 +22,13 @@ import com.ms.bootcamp.ProductMicroservice.ProductRepository;
 import com.ms.bootcamp.ProductMicroservice.model.DiscountRequest;
 import com.ms.bootcamp.ProductMicroservice.model.DiscountResponse;
 import com.ms.bootcamp.ProductMicroservice.model.Product;
+import com.ms.bootcamp.ProductMicroservice.model.ProductCategory;
 import com.ms.bootcamp.ProductMicroservice.model.ProductDTO;
+import com.ms.bootcamp.ProductMicroservice.model.ProductTag;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 @RibbonClient(name = "discountms")
@@ -52,6 +55,9 @@ public class ProductService {
 	@Autowired
 	@Lazy
 	private RestTemplate lbrestTemplate;
+
+	@Autowired
+	DiscountFeignProxy discountProxy;
 
 	public List<Product> getAllProducts() {
 		return repo.findAll();
@@ -228,17 +234,17 @@ public class ProductService {
 		}
 
 	}
+
+	@HystrixCommand(commandKey = "APPLY-DISCOUNT-COMMAND", fallbackMethod = "discountFallback", threadPoolKey = "discountFallback", commandProperties = {
+
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+
+			@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "60") })
+
 	/*
 	 * @HystrixCommand(commandKey = "APPLY-DISCOUNT-COMMAND", fallbackMethod =
-	 * "discountFallback", threadPoolKey = "discountFallback", commandProperties = {
-	 * 
-	 * @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
-	 * value = "3000"),
-	 * 
-	 * @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value =
-	 * "60") })
+	 * "discountFallback")
 	 */
-	@HystrixCommand(commandKey = "APPLY-DISCOUNT-COMMAND", fallbackMethod = "discountFallback")
 	public ProductDTO applyDiscount(Product p) {
 		DiscountRequest drequest = new DiscountRequest();
 		drequest.setCategory(p.getCategory());
@@ -251,8 +257,7 @@ public class ProductService {
 			e.printStackTrace();
 			// throw e;
 		}
-		DiscountResponse discountResponse = lbrestTemplate.postForObject(uri, drequest,
-				DiscountResponse.class);
+		DiscountResponse discountResponse = lbrestTemplate.postForObject(uri, drequest, DiscountResponse.class);
 		ProductDTO pdto = new ProductDTO();
 		pdto.setCategory(p.getCategory());
 		pdto.setDrp(discountResponse.getDrp());
@@ -264,6 +269,22 @@ public class ProductService {
 		pdto.setShortDescription(p.getShortDescription());
 		pdto.setTags(p.getTags());
 		return pdto;
+	}
+
+	public ProductDTO getProductv7(Integer id) {
+		Optional<Product> op = getProduct(id);
+		if (op.isPresent()) {
+			Product p = op.get();
+			DiscountRequest request = new DiscountRequest(p.getCategory(), p.getMrp());
+			DiscountResponse response = discountProxy.calculateDiscount(request);
+			ProductDTO pDto = new ProductDTO(p.getId(), p.getName(), p.getShortDescription(), p.getCategory(),
+					p.getMrp(), response.getDrp(), response.getFixedCategoryDiscount(), response.getOnSpotDiscount(),
+					p.getTags());
+			return pDto;
+		} else {
+			return null;
+		}
+
 	}
 
 	public ProductDTO discountFallback(Product p) {

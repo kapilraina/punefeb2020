@@ -11,6 +11,7 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,11 @@ import com.ms.bootcamp.ProductMicroservice.model.ProductCategory;
 import com.ms.bootcamp.ProductMicroservice.model.ProductTag;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableHystrix
 @EnableCircuitBreaker
 @EnableHystrixDashboard
+@EnableFeignClients
 public class ProductMicroserviceApplication {
 
 	@Autowired
@@ -71,5 +73,5 @@ public class ProductMicroserviceApplication {
 		ptrepo.save(new ProductTag(1, "fresh"));
 		ptrepo.save(new ProductTag(1, "carbon"));
 	}
-
+  
 }

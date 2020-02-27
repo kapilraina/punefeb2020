@@ -128,4 +128,22 @@ public class ProductController {
 		}
  
 	}
+	
+	/**
+	 * Feign
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(path = "/v7/{id}", method = RequestMethod.GET)
+	public ResponseEntity<ProductDTO> getProductv7(@PathVariable(name = "id") Integer id) {
+		
+		ProductDTO pdto = productService.getProductv7(id);
+		if (pdto != null) {
+			return new ResponseEntity<ProductDTO>(pdto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ProductDTO>(HttpStatus.NOT_FOUND);
+		}
+ 
+	}
 }
