@@ -6,5 +6,5 @@ spring:
     name: discountms
   cloud:
     config:
-      uri: ${discountms.zone.url:http://localhost:8888}
+      uri: http://configserver:8888
       fail-fast: true

@@ -1,8 +1,7 @@
 spring:
   cloud:
     config:
-      uri:
-      - ${productms.cloud.config.server:http://localhost:8888}
+      uri: http://configserver:8888
       fail-fast: false
   application:
     name: productms

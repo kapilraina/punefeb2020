@@ -1,15 +1,15 @@
 version: '2.2'
 
 services:
-  configserver:
-    image: kapilshekharraina/configserverlab:1
+  productms:
+    image: kapilshekharraina/productms:1
     cpu_percent: 10
     mem_reservation: 75m
     #container_name: cloudconfigbus
-    environment:
-        - cloudconfigbus.activeprofiles=startup, qa
+   # environment:
+   #     - cloudconfigbus.activeprofiles=startup, qa
     ports:
-      - "8888:8888"
+      - "8081:8081"
  
 networks:
  default:
