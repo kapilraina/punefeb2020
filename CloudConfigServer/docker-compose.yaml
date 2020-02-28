@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   eureka:
-    image: kapilshekharraina/cloudconfiglab:1
+    image: kapilshekharraina/configserverlab:1
     cpu_percent: 10
     mem_reservation: 75m
     #container_name: cloudconfigbus
