@@ -1,1 +1,1 @@
-configserver.url: ${configserver.zone.url:http://localhost:8888}
+configserver.url: ${configserver.zone.url:http://configserver:8888}
