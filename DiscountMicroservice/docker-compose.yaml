@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   discountms:
-    image: kapilshekharraina/discountms:1
+    image: kapilshekharraina/discountmslab:1
     cpu_percent: 10
     mem_reservation: 75m
     #container_name: cloudconfigbus

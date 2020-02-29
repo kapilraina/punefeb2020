@@ -14,7 +14,11 @@ spring:
     sampler:
       probability: 1.0
   zipkin:
+    enabled: true
     base-url: http://zipkin:9411/
+  rabbitmq:
+    host: ${cloudconfigserver.bus.rabbitmq.host:rabbitmq-master}
+    port: ${cloudconfigserver.bus.rabbitmq.port:5672}
 server:
   port: 8888
 management:
