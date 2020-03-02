@@ -1,0 +1,10 @@
+---
+spring:
+  profiles:
+    active: ${productms.activeprofiles:dev}
+  application:
+    name: webauditms
+  cloud:
+    config:
+      uri: ${productms.zone.url:http://configserver:8888}
+      fail-fast: true

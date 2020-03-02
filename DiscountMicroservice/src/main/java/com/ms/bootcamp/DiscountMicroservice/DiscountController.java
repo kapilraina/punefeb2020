@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ms.bootcamp.DiscountMicroservice.audit.AuditService;
+import com.ms.bootcamp.DiscountMicroservice.audit.stream.DiscountStreamService;
+
 @RestController
 @RefreshScope
 public class DiscountController {
@@ -19,11 +23,12 @@ public class DiscountController {
 
 	@Autowired
 	DiscountDataMap discountDataMap;
-	/*
-	 * @Autowired AuditService auditService;
-	 * 
-	 * @Autowired DiscountStreamService discountStreamService;
-	 */
+
+	@Autowired
+	AuditService auditService;
+
+	@Autowired
+	DiscountStreamService discountStreamService;
 
 	@PostConstruct
 	public void initBean() {
@@ -46,17 +51,18 @@ public class DiscountController {
 		double drp = Math.ceil(request.getMrp() - ((discountper / 100) * request.getMrp()));
 		DiscountResponse response = new DiscountResponse(request.getCategory(), request.getMrp(), drp,
 				fixedCategoryDiscount, onSpotDiscount);
-		/*
-		 * String responseJSON = ""; try { ObjectMapper obj = new ObjectMapper();
-		 * responseJSON = obj.writeValueAsString(response); // Should be taken to an
-		 * async thread to not block the response, since this is a // realtime call from
-		 * other MS. auditService.pubAuditEvent(responseJSON);
-		 * discountStreamService.pubAuditEvent(responseJSON);
-		 * 
-		 * } catch (Exception e) {
-		 * log.error("Couldnt Emit Discount Audit Event/Stream. Error :" +
-		 * e.getMessage()); log.info(responseJSON); }
-		 */
+
+		String responseJSON = "";
+		try {
+			ObjectMapper obj = new ObjectMapper();
+			responseJSON = obj.writeValueAsString(response);
+			auditService.pubAuditEvent(responseJSON);
+			discountStreamService.pubAuditEvent(responseJSON);
+
+		} catch (Exception e) {
+			log.error("Couldnt Emit Discount Audit Event/Stream. Error :" + e.getMessage());
+			log.info(responseJSON);
+		}
 
 		return response;
 	}

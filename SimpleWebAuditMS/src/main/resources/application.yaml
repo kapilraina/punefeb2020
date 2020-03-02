@@ -1,0 +1,45 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  sleuth:
+    enabled: true
+    trace-id128: ${webauditms.sleuth.trace128:true}
+    sampler:
+      probability: 1.0
+      percentage: 1.0
+  zipkin:
+    enabled: true
+    base-url: ${webauditms.zipkin.url}
+
+server:
+  port: ${webauditms.server.port:8077} # Remove on non dev/local testing
+ 
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: ${webauditms.eureka.instance.leaseRenewalIntervalInSeconds}
+    leaseExpirationDurationInSeconds: ${webauditms.eureka.instance.leaseExpirationDurationInSeconds}
+    preferIpAddress: true
+    metadata-map:
+      zone: ${webauditms.eureka.instance.zone}
+  client:
+    registerWithEureka: ${webauditms.eureka.client.registerWithEureka}
+    fetchRegistry: ${webauditms.eureka.client.fetchRegistry}
+    prefer-same-zone-eureka: ${webauditms.eureka.client.prefer-same-zone-eureka}
+    serviceUrl:
+      defaultZone: ${webauditms.eureka.client.service-registry-url} 
+      
+       
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      enabled: true
+             
+  server:
+    port: ${webauditms.management.server.port:9077}
