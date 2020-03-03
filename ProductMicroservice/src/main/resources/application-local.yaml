@@ -8,7 +8,7 @@ spring:
     sampler:
       probability: 1.0
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://zipkin:9411/
   h2:
     console:
       enabled: true
@@ -24,7 +24,9 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         ddl-auto: create-drop
-
+  rabbitmq:
+    host: ${productms.bus.rabbitmq.host:rabbitmq-master}
+    port: ${productms.bus.rabbitmq.port:5672}
 server:
   port: 8081
 
@@ -41,7 +43,7 @@ eureka:
     fetchRegistry: true
     prefer-same-zone-eureka: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka:8761/eureka
 
 feign:
   hystrix:

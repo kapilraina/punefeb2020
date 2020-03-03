@@ -44,9 +44,16 @@ management:
     web:
       exposure:
         include: "*"
-        
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    enable:
+      all: true
   endpoint:
     prometheus:
+      enabled: true
+    metrics:
       enabled: true
   #server:
   #  port: ${discountms.management.server.port:0}

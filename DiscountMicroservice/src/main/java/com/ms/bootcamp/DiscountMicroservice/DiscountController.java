@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ms.bootcamp.DiscountMicroservice.audit.AuditService;
 import com.ms.bootcamp.DiscountMicroservice.audit.stream.DiscountStreamService;
+import com.ms.bootcamp.DiscountMicroservice.metrics.DiscountMetricsService;
 
 @RestController
 @RefreshScope
@@ -29,6 +29,9 @@ public class DiscountController {
 
 	@Autowired
 	DiscountStreamService discountStreamService;
+
+	@Autowired
+	DiscountMetricsService discountMetricsService;
 
 	@PostConstruct
 	public void initBean() {
@@ -52,17 +55,9 @@ public class DiscountController {
 		DiscountResponse response = new DiscountResponse(request.getCategory(), request.getMrp(), drp,
 				fixedCategoryDiscount, onSpotDiscount);
 
-		String responseJSON = "";
-		try {
-			ObjectMapper obj = new ObjectMapper();
-			responseJSON = obj.writeValueAsString(response);
-			auditService.pubAuditEvent(responseJSON);
-			discountStreamService.pubAuditEvent(responseJSON);
-
-		} catch (Exception e) {
-			log.error("Couldnt Emit Discount Audit Event/Stream. Error :" + e.getMessage());
-			log.info(responseJSON);
-		}
+		auditService.pubAuditEvent(response);
+		discountStreamService.pubAuditEvent(response);
+		discountMetricsService.createAndLogMetrics(response);
 
 		return response;
 	}
