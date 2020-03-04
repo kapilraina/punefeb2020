@@ -15,15 +15,15 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
+  "id": 3,
   "links": [],
   "panels": [
     {
       "cacheTimeout": null,
       "datasource": null,
       "gridPos": {
-        "h": 6,
-        "w": 9,
+        "h": 5,
+        "w": 6,
         "x": 0,
         "y": 0
       },
@@ -37,30 +37,30 @@
           ],
           "defaults": {
             "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
+            "max": 100,
+            "min": 0,
+            "thresholds": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
+          "override": {},
           "overrides": [],
           "values": false
         },
         "orientation": "horizontal",
         "showUnfilled": true
       },
-      "pluginVersion": "6.6.2",
+      "pluginVersion": "6.5.1",
       "targets": [
         {
-          "expr": "rate(discountms_categorydiscountcounter_total[1m])",
+          "expr": "discountms_categorydiscountcounter_total",
           "legendFormat": "{{category}}",
           "refId": "A"
         }
@@ -73,15 +73,16 @@
     {
       "aliasColors": {},
       "bars": false,
+      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 9,
-        "x": 9,
+        "x": 6,
         "y": 0
       },
       "hiddenSeries": false,
@@ -97,12 +98,13 @@
       },
       "lines": true,
       "linewidth": 1,
+      "links": [],
       "nullPointMode": "null",
       "options": {
         "dataLinks": []
       },
       "percentage": false,
-      "pluginVersion": "6.6.2",
+      "pluginVersion": "6.5.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -159,12 +161,104 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 6,
+      "fillGradient": 5,
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 15,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "interval": "",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pluginVersion": "6.5.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_count[1m])",
+          "format": "heatmap",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{method}}  {{status}} {{uri}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Http Requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "datasource": null,
       "gridPos": {
         "h": 4,
         "w": 9,
         "x": 0,
-        "y": 6
+        "y": 5
       },
       "id": 4,
       "options": {
@@ -175,27 +269,27 @@
           ],
           "defaults": {
             "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
+            "max": 100,
+            "min": 0,
+            "thresholds": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
+          "override": {},
           "overrides": [],
           "values": false
         },
         "orientation": "horizontal",
         "showUnfilled": true
       },
-      "pluginVersion": "6.6.2",
+      "pluginVersion": "6.5.1",
       "targets": [
         {
           "expr": "jvm_threads_states_threads",
@@ -205,16 +299,16 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Heap Metrics",
+      "title": "Thread Metrics",
       "type": "bargauge"
     },
     {
       "datasource": null,
       "gridPos": {
         "h": 4,
-        "w": 11,
+        "w": 4,
         "x": 9,
-        "y": 6
+        "y": 5
       },
       "id": 6,
       "options": {
@@ -224,20 +318,20 @@
           ],
           "defaults": {
             "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
+            "max": 100,
+            "min": 0,
+            "thresholds": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
+          "override": {},
           "overrides": [],
           "values": false
         },
@@ -245,7 +339,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "6.6.2",
+      "pluginVersion": "6.5.1",
       "targets": [
         {
           "expr": "system_cpu_usage",
@@ -258,41 +352,6 @@
       "type": "gauge"
     },
     {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                null
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "5m",
-        "frequency": "1m",
-        "handler": 1,
-        "name": "Panel Title alert",
-        "noDataState": "no_data",
-        "notifications": []
-      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -302,9 +361,9 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 5,
-        "w": 11,
-        "x": 9,
-        "y": 10
+        "w": 10,
+        "x": 13,
+        "y": 5
       },
       "hiddenSeries": false,
       "id": 2,
@@ -338,16 +397,7 @@
           "refId": "A"
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": null,
-          "yaxis": "left"
-        }
-      ],
+      "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -390,7 +440,7 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 22,
+  "schemaVersion": 21,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -415,7 +465,7 @@
     ]
   },
   "timezone": "",
-  "title": "New dashboard",
-  "uid": null,
-  "version": 0
+  "title": "ProductMSDashboard",
+  "uid": "n_akrBlZz",
+  "version": 1
 }

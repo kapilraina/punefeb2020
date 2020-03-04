@@ -1,25 +1,22 @@
 package com.ms.bootcamp.DiscountMicroservice.metrics;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.ms.bootcamp.DiscountMicroservice.DiscountResponse;
+import com.ms.bootcamp.DiscountMicroservice.ProductCategory;
 
-import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.micrometer.jmx.JmxConfig;
-import io.micrometer.jmx.JmxMeterRegistry;
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.micrometer.core.instrument.Tag;
 
 @Service
 public class DiscountMetricsService {
@@ -33,33 +30,63 @@ public class DiscountMetricsService {
 	 * }
 	 */
 
-	
-
+	/**
+	 * It is your responsibility to hold a strong reference to the state object that
+	 * you are measuring with a Gauge. Micrometer is careful to not create strong
+	 * references to objects that would otherwise be garbage collected. Once the
+	 * object being gauged is de-referenced and is garbage collected, Micrometer
+	 * will start reporting a NaN or nothing for a gauge, depending on the registry
+	 * implementation.
+	 */
 	private MeterRegistry meterRegistry;
+	private Map<ProductCategory, AtomicLong> gaugeMap;
 
 	public DiscountMetricsService(MeterRegistry meterRegistry) {
 		this.meterRegistry = meterRegistry;
+		gaugeMap = new HashMap<ProductCategory, AtomicLong>();
+		String gaugeName = "discountms.categorydiscountmetric";
+		for (ProductCategory pc : ProductCategory.values()) {
+			AtomicLong discount = new AtomicLong(0);
+
+			Tag t = new Tag() {
+
+				@Override
+				public String getValue() {
+					// TODO Auto-generated method stub
+					return pc.name();
+				}
+
+				@Override
+				public String getKey() {
+					// TODO Auto-generated method stub
+					return "category";
+				}
+			};
+
+			List<Tag> tags = new ArrayList<Tag>();
+			tags.add(t);
+			discount = meterRegistry.gauge(gaugeName, tags, discount, f -> f.get());
+
+			gaugeMap.put(pc, discount);
+
+		}
+
+		/*
+		 * Gauge discountGauge = Gauge.builder(gaugeName, discount, f -> f.get())
+		 * .tag("category", response.getCategory().name()).register(meterRegistry);
+		 */
+
 	}
 
 	@Async
 	public void createAndLogMetrics(DiscountResponse response) {
 
 		try {
+			gaugeMap.get(response.getCategory())
+					.set((long) (response.getOnSpotDiscount() + response.getFixedCategoryDiscount()));
 
-			AtomicLong discount = new AtomicLong(0);
-			String gaugeName = "discountms.categorydiscountmetric";
-			Gauge discountGauge = Gauge.builder(gaugeName, discount, f -> f.get())
-					.tag("category", response.getCategory().name()).register(meterRegistry);
-
-			/*
-			 * discount = meterRegistry.gauge("discountms.discountmetric." +
-			 * response.getCategory().name(), discount, f -> f.get());
-			 */
-
-			discount.set((long) (response.getMrp() - response.getDrp()));
-			log.info("\n**** Gauge Logging :" + response.getCategory().name() + " : " + discount);
-
-			log.info("\n**** Gauging :" + discountGauge.value());
+			log.info("\n**** Gauge Logging :" + response.getCategory().name() + " : "
+					+ gaugeMap.get(response.getCategory()));
 
 			String counterName = "discountms.categorydiscountcounter";
 			Counter discountCounter = Counter.builder(counterName).tag("category", response.getCategory().name())

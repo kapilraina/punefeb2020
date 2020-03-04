@@ -18,7 +18,7 @@ spring:
         ddl-auto: create-drop
   
   rabbitmq:
-   host: rabbitmq
+   host: rabbitmq-master
    port: 5672
   cloud:
     stream:
