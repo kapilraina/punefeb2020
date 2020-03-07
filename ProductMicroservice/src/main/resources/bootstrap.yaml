@@ -6,4 +6,4 @@ spring:
   application:
     name: productms
   profiles:
-    active: ${productms.spring.profiles.active:local} 
+    active: ${productms.spring.profiles.active:dev} 
