@@ -13,6 +13,8 @@ spring:
   rabbitmq:
     host: ${discountms.bus.rabbitmq.host:rabbitmq-master}
     port: ${discountms.bus.rabbitmq.port:5672}
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: ${discountms.server.port:0}

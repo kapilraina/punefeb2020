@@ -81,8 +81,9 @@
 			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.opentracing.brave</groupId>
-			<artifactId>brave-opentracing</artifactId>
+			<groupId>io.opentracing.contrib</groupId>
+			<artifactId>opentracing-spring-web-starter</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 		<!-- Dependencies for LogStash -->
 		<dependency>
