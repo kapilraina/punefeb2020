@@ -85,7 +85,7 @@ public class DiscountMetricsService {
 		Executors.newFixedThreadPool(1).submit(() -> {
 
 			try {
-				Thread.sleep(2000);
+				//Thread.sleep(2000);
 				gaugeMap.get(response.getCategory())
 						.set((long) (response.getOnSpotDiscount() + response.getFixedCategoryDiscount()));
 

@@ -33,7 +33,7 @@ public class AuditService {
 
 			String responseJSON = "";
 			try {
-				Thread.sleep(2000);
+				//Thread.sleep(2000);
 				ObjectMapper obj = new ObjectMapper();
 				responseJSON = obj.writeValueAsString(response);
 				MessageChannel messageChannel = auditStream.outboundAudit();

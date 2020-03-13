@@ -32,7 +32,7 @@ public class DiscountStreamService {
 			String responseJSON = "";
 			ObjectMapper obj = new ObjectMapper();
 			try {
-				Thread.sleep(2000);
+			//	Thread.sleep(2000);
 				responseJSON = obj.writeValueAsString(response);
 				MessageChannel messageChannel = discountStream.outboundDiscountStream();
 				messageChannel.send(MessageBuilder.withPayload(responseJSON)
