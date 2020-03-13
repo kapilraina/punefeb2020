@@ -25,22 +25,27 @@ public class DiscountStreamService {
 		this.discountStream = discountStream;
 	}
 
-	@Async
-	public void pubAuditEvent(final DiscountResponse response) {
-		// log.info("Sending greetings {}", greeting);
+	
+	public void pubAuditEventStream(final DiscountResponse response) {
+		log.info(">>pubAuditEventStream Aync");
+		Executors.newFixedThreadPool(1).execute(() -> {
+			String responseJSON = "";
+			ObjectMapper obj = new ObjectMapper();
+			try {
+				Thread.sleep(2000);
+				responseJSON = obj.writeValueAsString(response);
+				MessageChannel messageChannel = discountStream.outboundDiscountStream();
+				messageChannel.send(MessageBuilder.withPayload(responseJSON)
+						.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
+			} catch (Throwable e) {
+				log.error("\nCouldnt Emit Discount Audit Event/Stream. Error :" + e.getMessage());
+				log.info("\nLogging Discount Response as fallback: " + response);
 
-		String responseJSON = "";
-		ObjectMapper obj = new ObjectMapper();
-		try {
-			responseJSON = obj.writeValueAsString(response);
-		} catch (JsonProcessingException e) {
-			log.error("Couldnt Emit Discount Audit Event/Stream. Error :" + e.getMessage());
+			} 
 
-		}
-		MessageChannel messageChannel = discountStream.outboundDiscountStream();
-		messageChannel.send(MessageBuilder.withPayload(responseJSON)
-				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
+		});
 
+		
 	}
 
 }

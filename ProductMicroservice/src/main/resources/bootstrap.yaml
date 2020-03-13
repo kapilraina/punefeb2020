@@ -1,9 +1,12 @@
 spring:
   cloud:
     config:
-      uri: http://configserver:8888
+      uri: ${productms.configserverurl:http://configserver:8888}
       fail-fast: false
+      label: ${productms.configserver.labels:vbconfigs}
   application:
     name: productms
   profiles:
-    active: ${productms.spring.profiles.active:local} 
+    active: ${productms.spring.profiles.active:dev} 
+  main:
+    allow-bean-definition-overriding: true

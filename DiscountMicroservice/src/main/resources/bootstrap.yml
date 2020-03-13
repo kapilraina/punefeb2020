@@ -6,5 +6,6 @@ spring:
     name: discountms
   cloud:
     config:
-      uri: http://configserver:8888
+      uri: ${discountms.configserverurl:http://configserver:8888}
       fail-fast: true
+      label: ${discountms.configserver.labels:vbconfigs}

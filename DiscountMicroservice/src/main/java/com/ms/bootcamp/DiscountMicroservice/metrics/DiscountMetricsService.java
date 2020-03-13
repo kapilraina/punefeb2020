@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -80,22 +81,26 @@ public class DiscountMetricsService {
 
 	@Async
 	public void createAndLogMetrics(DiscountResponse response) {
+		log.info(">>createAndLogMetrics Aync");
+		Executors.newFixedThreadPool(1).submit(() -> {
 
-		try {
-			gaugeMap.get(response.getCategory())
-					.set((long) (response.getOnSpotDiscount() + response.getFixedCategoryDiscount()));
+			try {
+				Thread.sleep(2000);
+				gaugeMap.get(response.getCategory())
+						.set((long) (response.getOnSpotDiscount() + response.getFixedCategoryDiscount()));
 
-			log.info("\n**** Gauge Logging :" + response.getCategory().name() + " : "
-					+ gaugeMap.get(response.getCategory()));
+				log.info("\n**** Gauge Logging :" + response.getCategory().name() + " : "
+						+ gaugeMap.get(response.getCategory()));
 
-			String counterName = "discountms.categorydiscountcounter";
-			Counter discountCounter = Counter.builder(counterName).tag("category", response.getCategory().name())
-					.register(meterRegistry);
-			discountCounter.increment();
+				String counterName = "discountms.categorydiscountcounter";
+				Counter discountCounter = Counter.builder(counterName).tag("category", response.getCategory().name())
+						.register(meterRegistry);
+				discountCounter.increment();
 
-		} catch (Throwable t) {
-			log.error("\n**** Discount MS Gauge Logging Error = " + t);
-		}
+			} catch (Throwable t) {
+				log.error("\n**** Discount MS Gauge Logging Error = " + t);
+			}
+		});
 
 	}
 

@@ -1,10 +1,10 @@
 ---
 spring:
   profiles:
-    active: ${productms.activeprofiles:dev}
+    active: ${webauditms.activeprofiles:dev}
   application:
     name: webauditms
   cloud:
     config:
-      uri: ${productms.zone.url:http://configserver:8888}
+      uri: ${webauditms.zone.url:http://configserver:8888}
       fail-fast: true

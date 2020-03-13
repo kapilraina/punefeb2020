@@ -1,5 +1,7 @@
 package com.ms.bootcamp.DiscountMicroservice.audit;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
@@ -25,21 +27,25 @@ public class AuditService {
 		this.auditStream = auditStream;
 	}
 
-	@Async
 	public void pubAuditEvent(final DiscountResponse response) {
+		log.info(">>pubAuditEvent Aync");
+		Executors.newFixedThreadPool(1).execute(() -> {
 
-		String responseJSON = "";
-		try {
-			ObjectMapper obj = new ObjectMapper();
-			responseJSON = obj.writeValueAsString(response);
-			MessageChannel messageChannel = auditStream.outboundAudit();
-			messageChannel.send(MessageBuilder.withPayload(responseJSON)
-					.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN_VALUE).build());
+			String responseJSON = "";
+			try {
+				Thread.sleep(2000);
+				ObjectMapper obj = new ObjectMapper();
+				responseJSON = obj.writeValueAsString(response);
+				MessageChannel messageChannel = auditStream.outboundAudit();
+				messageChannel.send(MessageBuilder.withPayload(responseJSON)
+						.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN_VALUE).build());
 
-		} catch (Exception e) {
-			log.error("Couldnt Emit Discount Stream. Error :" + e.getMessage());
-			log.info(responseJSON);
-		}
+			} catch (Throwable e) {
+				log.error("\nCouldnt Emit Discount Stream. Error :" + e.getMessage());
+				log.info("\nLogging Discount Respnse as Fallback : "+responseJSON);
+			}
+
+		});
 
 	}
 

@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,9 +57,9 @@ public class DiscountController {
 		DiscountResponse response = new DiscountResponse(request.getCategory(), request.getMrp(), drp,
 				fixedCategoryDiscount, onSpotDiscount);
 
-		auditService.pubAuditEvent(response);
-		discountStreamService.pubAuditEvent(response);
-		discountMetricsService.createAndLogMetrics(response);
+		pubAuditEvent(response);
+		pubAuditEventStream(response);
+		createAndLogMetrics(response);
 
 		return response;
 	}
@@ -66,6 +68,23 @@ public class DiscountController {
 	public double getRandom() {
 
 		return Math.ceil(Math.random() * 10);
+	}
+	
+	
+	
+	
+	public void pubAuditEvent(DiscountResponse response) {
+		auditService.pubAuditEvent(response);
+	}
+
+	
+	public void pubAuditEventStream(DiscountResponse response) {
+		discountStreamService.pubAuditEventStream(response);
+	}
+
+	
+	public void createAndLogMetrics(DiscountResponse response) {
+		discountMetricsService.createAndLogMetrics(response);
 	}
 
 }
