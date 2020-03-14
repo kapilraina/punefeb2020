@@ -8,4 +8,4 @@ spring:
     config:
       uri: ${discountms.configserverurl:http://configserver:8888}
       fail-fast: true
-      label: ${discountms.configserver.labels:vbconfigs}
+      label: ${discountms.configserver.labels:master}

@@ -1,0 +1,34 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: productms
+    version: v1
+  name: productms
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: productms
+      version: v1
+  template: 
+    metadata: 
+      labels: 
+        app: productms
+        version: v1
+    spec: 
+      containers: 
+        - 
+          image: "kapilshekharraina/productmslab:1"
+          imagePullPolicy: Always
+          name: productms
+          ports: 
+          - containerPort: 8081         
+          env:
+            - name:   productms.activeprofiles
+              value: "dev"
+            - name:   productms.configserver.labels
+              value: "master"
+            - name:   productms.configserverurl
+              value: "http://cloudconfigserver:8888"              

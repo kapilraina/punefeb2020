@@ -1,0 +1,32 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: discountms
+    version: v1
+  name: discountms
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: discountms
+      version: v1
+  template: 
+    metadata: 
+      labels: 
+        app: discountms
+        version: v1
+    spec: 
+      containers: 
+        - 
+          image: "kapilshekharraina/discountmslab:1"
+          imagePullPolicy: Always
+          name: discountms
+          env:
+            - name:   discountms.activeprofiles
+              value: "dev"
+            - name:   discountms.configserver.labels
+              value: "master"
+            - name:   discountms.configserverurl
+              value: "http://cloudconfigserver:8888"              
