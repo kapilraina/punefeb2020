@@ -22,16 +22,14 @@ import com.ms.bootcamp.ProductMicroservice.ProductRepository;
 import com.ms.bootcamp.ProductMicroservice.model.DiscountRequest;
 import com.ms.bootcamp.ProductMicroservice.model.DiscountResponse;
 import com.ms.bootcamp.ProductMicroservice.model.Product;
-import com.ms.bootcamp.ProductMicroservice.model.ProductCategory;
 import com.ms.bootcamp.ProductMicroservice.model.ProductDTO;
-import com.ms.bootcamp.ProductMicroservice.model.ProductTag;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
-@RibbonClient(name = "discountms")
+@RibbonClient(name = "discountms",configuration = RibbonConfiguration.class)
 public class ProductService {
 
 	@Autowired
