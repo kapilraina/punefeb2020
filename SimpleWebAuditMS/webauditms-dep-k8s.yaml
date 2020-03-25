@@ -31,4 +31,11 @@ spec:
             - name:   webauditms.configserver.labels
               value: "master"
             - name:   webauditms.configserverurl
-              value: "http://cloudconfigserver:8888"              
+              value: "http://cloudconfigserver:8888"       
+          resources:
+            requests:
+                memory: "512Mi"
+                cpu: "200m"
+            limits:
+                memory: "786Mi"
+                cpu: "400m"                

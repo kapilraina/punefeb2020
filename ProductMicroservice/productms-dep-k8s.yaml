@@ -31,4 +31,11 @@ spec:
             - name:   productms.configserver.labels
               value: "master"
             - name:   productms.configserverurl
-              value: "http://cloudconfigserver:8888"              
+              value: "http://cloudconfigserver:8888"    
+          resources:
+            requests:
+                memory: "256Mi"
+                cpu: "200m"
+            limits:
+                memory: "768Mi"
+                cpu: "400m"              
