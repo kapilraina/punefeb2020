@@ -57,8 +57,8 @@ management:
       enabled: true
     metrics:
       enabled: true
-  #server:
-  #  port: ${discountms.management.server.port:0}
+  server:
+    port: ${discountms.management.server.port:9999}
 
 
 #logging:
