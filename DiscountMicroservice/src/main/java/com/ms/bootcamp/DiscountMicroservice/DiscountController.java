@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice;
+package com.ms.bootcamp.discountmicroservice;
 
 import javax.annotation.PostConstruct;
 
@@ -6,16 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ms.bootcamp.DiscountMicroservice.audit.AuditService;
-import com.ms.bootcamp.DiscountMicroservice.audit.stream.DiscountStreamService;
-import com.ms.bootcamp.DiscountMicroservice.metrics.DiscountMetricsService;
+import com.ms.bootcamp.discountmicroservice.audit.AuditService;
+import com.ms.bootcamp.discountmicroservice.audit.stream.DiscountStreamService;
+import com.ms.bootcamp.discountmicroservice.metrics.DiscountMetricsService;
 
 @RestController
 @RefreshScope

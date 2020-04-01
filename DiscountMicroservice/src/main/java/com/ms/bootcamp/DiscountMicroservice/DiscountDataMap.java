@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice;
+package com.ms.bootcamp.discountmicroservice;
 
 import java.util.HashMap;
 import java.util.Map;

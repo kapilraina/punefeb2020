@@ -1,4 +1,4 @@
-package com.ms.training.SimpleWebAuditMS;
+package com.ms.bootcamp.audit;
 
 import java.util.Date;
 

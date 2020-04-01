@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice;
+package com.ms.bootcamp.productmicroservice;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ms.bootcamp.ProductMicroservice.model.Product;
-import com.ms.bootcamp.ProductMicroservice.model.ProductDTO;
-import com.ms.bootcamp.ProductMicroservice.service.ProductService;
+import com.ms.bootcamp.productmicroservice.model.Product;
+import com.ms.bootcamp.productmicroservice.model.ProductDTO;
+import com.ms.bootcamp.productmicroservice.service.ProductService;
 
 @RestController
 @RequestMapping("/product")

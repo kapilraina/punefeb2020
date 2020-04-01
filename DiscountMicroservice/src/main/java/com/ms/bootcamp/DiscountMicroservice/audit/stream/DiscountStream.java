@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice.audit.stream;
+package com.ms.bootcamp.discountmicroservice.audit.stream;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;

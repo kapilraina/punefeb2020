@@ -1,7 +1,5 @@
-package com.ms.bootcamp.DiscountMicroservice.audit;
+package com.ms.bootcamp.discountmicroservice.audit;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
@@ -9,13 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ms.bootcamp.DiscountMicroservice.DiscountController;
-import com.ms.bootcamp.DiscountMicroservice.DiscountResponse;
+import com.ms.bootcamp.discountmicroservice.DiscountResponse;
 
 @Service
 public class AuditService {

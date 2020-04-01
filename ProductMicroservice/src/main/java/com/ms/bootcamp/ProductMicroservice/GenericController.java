@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice;
+package com.ms.bootcamp.productmicroservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.ms.training.SimpleWebAuditMS;
+package com.ms.bootcamp.audit;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

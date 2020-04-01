@@ -75,7 +75,7 @@
 		</dependency>
 
 		<!-- Dependencies for LogStash -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>5.3</version>
@@ -85,7 +85,7 @@
 			<artifactId>logback-core</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-
+ -->
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-core</artifactId>

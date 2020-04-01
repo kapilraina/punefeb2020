@@ -1,7 +1,7 @@
 spring:
   rabbitmq:
     host: ${productms.bus.rabbitmq.host:rabbitmq-master}
-    port: ${productms.bus.rabbitmq.port:5672}
+    port: ${productms.bus.rabbitmq.port:32562}
   cloud:
     stream:
       bindings:
@@ -27,7 +27,7 @@ spring:
             spring:
               rabbitmq:
                host: rabbitmq-master
-               port: 5672
+               port: 32562
 
         kafka-binder:    
          type: kafka
@@ -48,16 +48,20 @@ spring:
      trace: 
       enabled: ${discountms.bus.trace:true}
     # destination: ${discountms.bus.destination:busXchange}   
-logging:
-  pattern: 
-    level: "[%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p [%t] %C{2} - %m%n"
-  level:
-    root: INFO
-    com.ms.bootcamp: INFO
+#logging:
+  #pattern: 
+  #  console: "%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}]  %-5p %C{2} - %m%n"
+  #  file: "%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}]  %-5p %C{2} - %m%n"
+  #level:
+  #  root: INFO
+  #  com.ms.bootcamp: INFO
+  #file: /var/log/miscountms.log  
     
 #discountms.logging.pattern: 
 #discountms.logging.root.level: info
 #discountms.logging.app.level: debug
+
+discountms.bus.rabbitmq.port: 32562
 
 discountms.eureka.instance.zone: zone_8761
 discountms.eureka.instance.leaseRenewalIntervalInSeconds: 2
@@ -65,7 +69,7 @@ discountms.eureka.instance.leaseExpirationDurationInSeconds: 5
 discountms.eureka.client.registerWithEureka: true
 discountms.eureka.client.fetchRegistry: true
 discountms.eureka.client.prefer-same-zone-eureka: true
-discountms.eureka.client.service-registry-url: http://eureka:8761/eureka
+discountms.eureka.client.service-registry-url: http://eureka-1:30511/eureka
 discountms.hystrix.metrics.polling-interval-ms: 3000
 
 discountdata.discountmap.FURNISHING: 15.35

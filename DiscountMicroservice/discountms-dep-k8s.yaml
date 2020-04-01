@@ -59,7 +59,7 @@ spec:
                 port: 9999
             initialDelaySeconds: 10
             timeoutSeconds: 5
-            periodSeconds: 30
+            periodSeconds: 80
             failureThreshold: 10
             successThreshold: 1 
           
@@ -67,5 +67,13 @@ spec:
             httpGet:
                 path: /actuator/health
                 port: 9999
-            periodSeconds: 30
+            periodSeconds: 60
             failureThreshold: 10
+          volumeMounts:
+            - mountPath: /var/log
+              name: discountms-logs            
+      volumes:
+       - name: discountms-logs
+         hostPath:
+            path: /var/log
+            type: Directory           

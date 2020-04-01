@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice;
+package com.ms.bootcamp.productmicroservice;
 
 import java.util.HashMap;
 import java.util.Map;

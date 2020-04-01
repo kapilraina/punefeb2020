@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice.metrics;
+package com.ms.bootcamp.discountmicroservice.metrics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.ms.bootcamp.DiscountMicroservice.DiscountResponse;
-import com.ms.bootcamp.DiscountMicroservice.ProductCategory;
+import com.ms.bootcamp.discountmicroservice.DiscountResponse;
+import com.ms.bootcamp.discountmicroservice.ProductCategory;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;

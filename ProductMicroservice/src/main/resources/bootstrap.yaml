@@ -7,6 +7,6 @@ spring:
   application:
     name: productms
   profiles:
-    active: ${productms.spring.profiles.active:dev} 
+    active: ${productms.spring.profiles.active:local} 
   main:
     allow-bean-definition-overriding: true

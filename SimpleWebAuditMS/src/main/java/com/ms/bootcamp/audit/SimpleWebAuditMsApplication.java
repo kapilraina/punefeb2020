@@ -1,4 +1,4 @@
-package com.ms.training.SimpleWebAuditMS;
+package com.ms.bootcamp.audit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

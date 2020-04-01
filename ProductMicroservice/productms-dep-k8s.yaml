@@ -35,7 +35,7 @@ spec:
             containerPort: 8081
             hostPort: 8081      
           env:
-            - name:   productms.activeprofiles
+            - name:   productms.spring.profiles.active
               value: "dev"
             - name:   productms.configserver.labels
               value: "master"
@@ -43,7 +43,7 @@ spec:
               value: "http://cloudconfigserver:8888"    
           resources:
             requests:
-                memory: "256Mi"
+                memory: "512Mi"
                 cpu: "750m"
             limits:
                 memory: "768Mi"
@@ -65,7 +65,7 @@ spec:
                 port: 9999
             initialDelaySeconds: 10
             timeoutSeconds: 5
-            periodSeconds: 30
+            periodSeconds: 180
             failureThreshold: 10
             successThreshold: 1 
           
@@ -73,8 +73,15 @@ spec:
             httpGet:
                 path: /actuator/health
                 port: 9999
-            periodSeconds: 30
+            periodSeconds: 180
             failureThreshold: 10
- 
+          volumeMounts:
+            - mountPath: /var/log
+              name: productms-logs            
+      volumes:
+       - name: productms-logs
+         hostPath:
+            path: /var/log
+            type: Directory   
               
                     

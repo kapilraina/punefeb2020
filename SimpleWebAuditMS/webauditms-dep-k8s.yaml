@@ -61,6 +61,14 @@ spec:
                 port: 9077
             initialDelaySeconds: 30
             timeoutSeconds: 5
-            periodSeconds: 20
+            periodSeconds: 80
             failureThreshold: 10
-            successThreshold: 1              
+            successThreshold: 1   
+          volumeMounts:
+            - mountPath: /var/log
+              name: webauditms-logs            
+      volumes:
+       - name: webauditms-logs
+         hostPath:
+            path: /var/log
+            type: Directory                         

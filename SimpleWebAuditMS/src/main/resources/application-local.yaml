@@ -19,7 +19,7 @@ spring:
   
   rabbitmq:
    host: rabbitmq-master
-   port: 5672
+   port: 32562
   cloud:
     stream:
      #rabbit:
@@ -53,5 +53,5 @@ webauditms.eureka.instance.leaseExpirationDurationInSeconds: 5
 webauditms.eureka.client.registerWithEureka: true
 webauditms.eureka.client.fetchRegistry: true
 webauditms.eureka.client.prefer-same-zone-eureka: true
-webauditms.eureka.client.service-registry-url: http://eureka:8761/eureka
+webauditms.eureka.client.service-registry-url: http://eureka-1:30511/eureka
 webauditms.hystrix.metrics.polling-interval-ms: 3000

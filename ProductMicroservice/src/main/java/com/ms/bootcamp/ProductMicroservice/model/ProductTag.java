@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice.model;
+package com.ms.bootcamp.productmicroservice.model;
 
 import java.io.Serializable;
 

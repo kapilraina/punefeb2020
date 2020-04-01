@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice;
+package com.ms.bootcamp.productmicroservice;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -16,9 +15,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ms.bootcamp.ProductMicroservice.model.Product;
-import com.ms.bootcamp.ProductMicroservice.model.ProductCategory;
-import com.ms.bootcamp.ProductMicroservice.model.ProductTag;
+import com.ms.bootcamp.productmicroservice.model.Product;
+import com.ms.bootcamp.productmicroservice.model.ProductCategory;
+import com.ms.bootcamp.productmicroservice.model.ProductTag;
 
 @SpringBootApplication
 //@EnableEurekaClient

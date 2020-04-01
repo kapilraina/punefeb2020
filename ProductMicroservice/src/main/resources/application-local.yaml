@@ -9,12 +9,13 @@ spring:
       probability: 1.0
   zipkin:
     base-url: http://zipkin:9411/
+    
   h2:
     console:
       enabled: true
       path: /h2 
   datasource:
-    url: jdbc:h2:mem:myDb;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:myDb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
     username: sa
     password: 
     driver-class-name: org.h2.Driver
@@ -26,7 +27,7 @@ spring:
         ddl-auto: create-drop
   rabbitmq:
     host: ${productms.bus.rabbitmq.host:rabbitmq-master}
-    port: ${productms.bus.rabbitmq.port:5672}
+    port: ${productms.bus.rabbitmq.port:32562}
   main:
     allow-bean-definition-overriding: true
 server:
@@ -45,7 +46,7 @@ eureka:
     fetchRegistry: true
     prefer-same-zone-eureka: true
     serviceUrl:
-      defaultZone: http://eureka:8761/eureka
+      defaultZone: http://eureka-1:30511/eureka
 
 feign:
   hystrix:

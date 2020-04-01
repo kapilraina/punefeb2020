@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice.audit;
+package com.ms.bootcamp.discountmicroservice.audit;
 
 import org.springframework.cloud.stream.annotation.EnableBinding;
 

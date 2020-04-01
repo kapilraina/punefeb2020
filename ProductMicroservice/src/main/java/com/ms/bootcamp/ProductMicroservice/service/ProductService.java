@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice.service;
+package com.ms.bootcamp.productmicroservice.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,18 +18,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.ms.bootcamp.ProductMicroservice.ProductRepository;
-import com.ms.bootcamp.ProductMicroservice.model.DiscountRequest;
-import com.ms.bootcamp.ProductMicroservice.model.DiscountResponse;
-import com.ms.bootcamp.ProductMicroservice.model.Product;
-import com.ms.bootcamp.ProductMicroservice.model.ProductDTO;
+import com.ms.bootcamp.productmicroservice.ProductRepository;
+import com.ms.bootcamp.productmicroservice.model.DiscountRequest;
+import com.ms.bootcamp.productmicroservice.model.DiscountResponse;
+import com.ms.bootcamp.productmicroservice.model.Product;
+import com.ms.bootcamp.productmicroservice.model.ProductDTO;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
-@RibbonClient(name = "discountms",configuration = RibbonConfiguration.class)
+//@RibbonClient(name = "discountms",configuration = RibbonConfiguration.class)
+@RibbonClient(name = "discountms")
 public class ProductService {
 
 	@Autowired

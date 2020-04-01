@@ -1,16 +1,16 @@
-package com.ms.bootcamp.ProductMicroservice.service;
+package com.ms.bootcamp.productmicroservice.service;
 
 import org.springframework.stereotype.Component;
 
-import com.ms.bootcamp.ProductMicroservice.model.DiscountRequest;
-import com.ms.bootcamp.ProductMicroservice.model.DiscountResponse;
+import com.ms.bootcamp.productmicroservice.model.DiscountRequest;
+import com.ms.bootcamp.productmicroservice.model.DiscountResponse;
 
 @Component
 public class DiscountServiceFallback implements DiscountFeignProxy {
 
 	@Override
 	public DiscountResponse calculateDiscount(DiscountRequest request) {
-		return new DiscountResponse(request.getCategory(), request.getMrp(), 0.0, 0.0, 0.0);
+		return new DiscountResponse(request.getCategory(), request.getMrp(), request.getMrp(), 0.0, 0.0);
 	}
 
 }

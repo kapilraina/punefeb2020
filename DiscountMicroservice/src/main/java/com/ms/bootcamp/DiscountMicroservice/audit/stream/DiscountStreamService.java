@@ -1,4 +1,4 @@
-package com.ms.bootcamp.DiscountMicroservice.audit.stream;
+package com.ms.bootcamp.discountmicroservice.audit.stream;
 
 import java.util.concurrent.Executors;
 
@@ -7,13 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ms.bootcamp.DiscountMicroservice.DiscountResponse;
+import com.ms.bootcamp.discountmicroservice.DiscountResponse;
 
 @Service
 public class DiscountStreamService {

@@ -1,4 +1,4 @@
-package com.ms.training.SimpleWebAuditMS;
+package com.ms.bootcamp.audit;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

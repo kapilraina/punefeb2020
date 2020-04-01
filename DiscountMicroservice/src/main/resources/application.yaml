@@ -9,7 +9,7 @@ spring:
       probability: 1.0
   zipkin:
     enabled: true
-    base-url: http://zipkin:9411/
+    base-url: ${discountms.zipkin.url:http://zipkin:9411/}
   rabbitmq:
     host: ${discountms.bus.rabbitmq.host:rabbitmq-master}
     port: ${discountms.bus.rabbitmq.port:5672}

@@ -1,4 +1,4 @@
-package com.ms.bootcamp.ProductMicroservice.model;
+package com.ms.bootcamp.productmicroservice.model;
 
 public enum ProductCategory {
 	FURNISHING,
