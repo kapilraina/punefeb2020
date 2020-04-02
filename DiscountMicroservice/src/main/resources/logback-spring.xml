@@ -4,64 +4,40 @@
 		resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<property name="LOGS" value="/var/log" />
 
-	<!-- <springProfile name="local">
-		<include
-			resource="org/springframework/boot/logging/logback/console-appender.xml" />
-
-		<root level="INFO">
-			<appender-ref ref="CONSOLE" />
-		</root>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
-			<pattern>%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p %C{2} - %m%n</pattern> 
-			</encoder>
-	</springProfile> -->
+	<!-- <springProfile name="local"> <include resource="org/springframework/boot/logging/logback/console-appender.xml" 
+		/> <root level="INFO"> <appender-ref ref="CONSOLE" /> </root> <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+		<pattern>%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p %C{2} - %m%n</pattern> 
+		</encoder> </springProfile> -->
 
 	<springProfile name="dev,local">
 
 		<appender name="CONSOLEDEV"
 			class="ch.qos.logback.core.ConsoleAppender">
-			<!-- <file>${LOGS}/discountms.log</file>
+			<!-- <file>${LOGS}/discountms.log</file> <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"> 
+				<fileNamePattern>${LOGS}/archived/app.%d{yyyy-MM-dd}.%i.log </fileNamePattern> 
+				each archived file, size max 10MB <maxFileSize>10MB</maxFileSize> total size 
+				of all archive files, if total size > 20GB, it will delete old archived file 
+				<totalSizeCap>20GB</totalSizeCap> 60 days to keep <maxHistory>60</maxHistory> 
+				</rollingPolicy> -->
 
-			<rollingPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-				<fileNamePattern>${LOGS}/archived/app.%d{yyyy-MM-dd}.%i.log
-				</fileNamePattern>
-				each archived file, size max 10MB
-				<maxFileSize>10MB</maxFileSize>
-				total size of all archive files, if total size > 20GB, it will delete 
-					old archived file
-				<totalSizeCap>20GB</totalSizeCap>
-				60 days to keep
-				<maxHistory>60</maxHistory>
-			</rollingPolicy> -->
+			<!-- <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+				<pattern>%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p %C{2} - %m%n</pattern> 
+				</encoder> -->
 
-			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-				<pattern>%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p %C{2} -
-					%m%n</pattern>
+
+			<encoder>
+				<pattern>%d [%X{traceId}/%X{spanId}] [%thread] %-5level %logger{36}
+					- %msg%n</pattern>
+				<charset>utf8</charset>
 			</encoder>
-			<!-- <encoder
-				class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-				<providers>
-					<pattern>
-						<pattern>
-							{
-							"time": "%d",
-							"level": "%p",
-							"facility": "discountms",
-							"thread": "[%thread]",
-							"traceid": "%X{X-B3-TraceId}",
-							"spanid": "%X{X-B3-SpanId}",
-							"request-uri": "%X{req.requestURI}",
-							"request-method": "%X{req.method}",
-							"correlationid": "%X{correlationid}",
-							"source": "%logger{63}:%L",
-							"message": "%m%wEx{6}"
-							}
-						</pattern>
-					</pattern>
-				</providers>
-			</encoder> -->
-		
+
+			<!-- <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder"> 
+				<providers> <pattern> <pattern> { "time": "%d", "level": "%p", "facility": 
+				"discountms", "thread": "[%thread]", "traceid": "%X{X-B3-TraceId}", "spanid": 
+				"%X{X-B3-SpanId}", "request-uri": "%X{req.requestURI}", "request-method": 
+				"%X{req.method}", "correlationid": "%X{correlationid}", "source": "%logger{63}:%L", 
+				"message": "%m%wEx{6}" } </pattern> </pattern> </providers> </encoder> -->
+
 		</appender>
 
 
