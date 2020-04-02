@@ -20,6 +20,7 @@ spring:
   rabbitmq:
    host: rabbitmq-master
    port: 32562
+
   cloud:
     stream:
      #rabbit:
@@ -32,7 +33,11 @@ spring:
           declareExchange: true
           queueNameGroupOnly: true
           binding-key: 'rk.webaudit.shim.#'
-          binding-routing-key: 'rk.webaudit.shim.#'  
+          binding-routing-key: 'rk.webaudit.shim.#' 
+    bus:
+     trace: 
+      enabled: ${configserver.bus.trace:true}
+     destination: ${configserver.bus.destination:busXchange} 
 
 logging:
   pattern: 
@@ -44,7 +49,7 @@ logging:
 #webauditms.logging.pattern: 
 #webauditms.logging.root.level: info
 #webauditms.logging.app.level: debug
-
+webauditms.configserverurl: http://192.168.56.108:30375
 webauditms.sleuth.trace128: true
 webauditms.zipkin.url: http://zipkin:9411/
 webauditms.eureka.instance.zone: zone_8761

@@ -56,6 +56,7 @@ logging:
 #discountms.logging.root.level: info
 #discountms.logging.app.level: debug
 
+discountms.zone.url: 
 discountms.sleuth.trace128: true
 discountms.zipkin.url: http://zipkin:9411/
 discountms.eureka.instance.zone: zone_8761

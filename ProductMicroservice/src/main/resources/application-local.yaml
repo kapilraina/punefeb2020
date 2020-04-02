@@ -28,6 +28,11 @@ spring:
   rabbitmq:
     host: ${productms.bus.rabbitmq.host:rabbitmq-master}
     port: ${productms.bus.rabbitmq.port:32562}
+  cloud:
+    bus:
+     trace: 
+      enabled: ${configserver.bus.trace:true}
+     destination: ${configserver.bus.destination:busXchange}
   main:
     allow-bean-definition-overriding: true
 server:
@@ -65,3 +70,5 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+      
+productms.configserverurl: http://192.168.56.108:30375
