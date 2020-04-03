@@ -2,52 +2,52 @@
 <configuration>
 	<include
 		resource="org/springframework/boot/logging/logback/defaults.xml" />
-	<property name="LOGS" value="/var/log" />
 
-	<springProfile name="local">
-		<include
-			resource="org/springframework/boot/logging/logback/console-appender.xml" />
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder
+			class="net.logstash.logback.encoder.LogstashEncoder">
+				<!-- <encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder"> -->
+			 <fieldNames>
+                <message>log</message>
+            </fieldNames>
+			<!-- <providers>
+				<pattern>
+					<pattern>
+						{
+						"traceId": "%X{traceId}",
+						"spanId": "%X{spanId}",
+						"time": "%d",
+						"level": "%p",
+						"facility": "JsonLoggerApp",
+						"thread": "[%thread]",
+						"request-uri": "%X{req.requestURI}",
+						"request-method": "%X{req.method}",
+						"correlationid": "%X{correlationid}",
+						"source": "%logger{63}:%L",
+						"log": "%m%wEx{6}"
+						}
+					</pattern>
+					%d [%X{traceId}/%X{spanId}] [%thread] %-5level %logger{36} - %msg%n
+				</pattern>
+			</providers> -->
+		</encoder>
+	</appender>
+
+	<springProfile name="dev,local">
 
 		<root level="INFO">
 			<appender-ref ref="CONSOLE" />
 		</root>
-	</springProfile>
-
-	<springProfile name="dev">
-
-		<appender name="FILE-ROLLING"
-			class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<file>${LOGS}/webauditms.log</file>
-
-			<rollingPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-				<fileNamePattern>${LOGS}/archived/app.%d{yyyy-MM-dd}.%i.log
-				</fileNamePattern>
-				<!-- each archived file, size max 10MB -->
-				<maxFileSize>10MB</maxFileSize>
-				<!-- total size of all archive files, if total size > 20GB, it will delete 
-					old archived file -->
-				<totalSizeCap>20GB</totalSizeCap>
-				<!-- 60 days to keep -->
-				<maxHistory>60</maxHistory>
-			</rollingPolicy>
-
-			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-				<pattern>%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p %C{2} - %m%n</pattern>
-			</encoder>
-		</appender>
-
-
-		<root level="ERROR">
-			<appender-ref ref="FILE-ROLLING" />
-		</root>
 
 		<logger name="org.springframework" level="INFO">
-			<appender-ref ref="FILE-ROLLING" />
+			<appender-ref ref="CONSOLE" />
 		</logger>
 		<logger name="com.ms.bootcamp" level="INFO">
-			<appender-ref ref="FILE-ROLLING" />
+			<appender-ref ref="CONSOLE" />
 		</logger>
 	</springProfile>
+
 
 </configuration>
