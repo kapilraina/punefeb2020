@@ -1,7 +1,7 @@
 package com.ms.bootcamp.discountserviceprocessor.stream.processors;
 
 import java.time.Duration;
-import java.util.function.Consumer;
+import java.util.Date;
 import java.util.function.Function;
 
 import org.apache.kafka.common.serialization.Serdes;
@@ -10,7 +10,6 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.TimeWindowedKStream;
 import org.apache.kafka.streams.kstream.TimeWindows;
@@ -28,7 +27,7 @@ public class DiscountStreamProcessors {
 	 */
 
 	@Bean
-	public Function<KStream<String, DiscountResponse>, KStream<String, Double>> winaggdisc() {
+	public Function<KStream<String, DiscountResponse>, KStream<String, AggregatedWindowedDiscount>> winaggdisc() {
 
 		return kstream -> {
 
@@ -41,10 +40,13 @@ public class DiscountStreamProcessors {
 
 					() -> 0.0, (aggKey, newValue, aggValue) -> aggValue + (newValue.getMrp() - newValue.getDrp()),
 
-					Materialized.<String, Double, WindowStore<Bytes, byte[]>>as("TX_WINDOWED_AGG_DISCOUNTSTREAM_STORE01")
+					Materialized
+							.<String, Double, WindowStore<Bytes, byte[]>>as("TX_WINDOWED_AGG_DISCOUNTSTREAM_STORE01")
 							.withValueSerde(Serdes.Double()).withKeySerde(Serdes.String()));
 
-			return kAggDiscountTable.toStream().map((k, v) -> KeyValue.pair(k.key(), v));
+			return kAggDiscountTable.toStream()
+					.map((k, v) -> KeyValue.pair(k.key(), new AggregatedWindowedDiscount(k.key(), v,
+							new Date(k.window().start()), new Date(k.window().end()))));
 
 		};
 	}
