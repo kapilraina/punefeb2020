@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ms.training</groupId>
-	<artifactId>SimpleWebAuditMS</artifactId>
+	<artifactId>WebAuditMicroservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SimpleWebAuditMS</name>
+	<name>WebAuditMicroservice</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

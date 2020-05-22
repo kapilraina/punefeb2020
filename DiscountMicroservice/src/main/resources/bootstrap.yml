@@ -1,7 +1,7 @@
 ---
 spring:
   profiles:
-    active: ${discountms.activeprofiles:local}
+    active: ${discountms.activeprofiles:dev}
   application:
     name: discountms
   cloud:

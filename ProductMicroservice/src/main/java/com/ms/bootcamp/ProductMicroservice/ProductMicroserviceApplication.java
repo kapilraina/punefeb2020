@@ -13,11 +13,11 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ms.bootcamp.productmicroservice.model.Product;
 import com.ms.bootcamp.productmicroservice.model.ProductCategory;
 import com.ms.bootcamp.productmicroservice.model.ProductTag;
+import com.ms.bootcamp.productmicroservice.repository.ProductRepository;
 
 @SpringBootApplication
 //@EnableEurekaClient
@@ -29,8 +29,7 @@ public class ProductMicroserviceApplication {
 
 	@Autowired
 	private ProductRepository prepo;
-	@Autowired
-	private ProductTagRepository ptrepo;
+
 	public Map<Integer, Product> productSeeds = new HashMap<Integer, Product>();
 
 	@Bean
@@ -45,32 +44,26 @@ public class ProductMicroserviceApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			seedItUp();
+			Product p = new Product(1, "Kitchen Chimney", "6x4. Non-exhaust", ProductCategory.KITCHENELECTRONIC,
+					200.87);
+			p.getTags().add(new ProductTag(1, "kitchen"));
+			p.getTags().add(new ProductTag(1, "filter"));
+			p.getTags().add(new ProductTag(1, "smoke"));
+
+			prepo.save(p);
+			p = new Product(2, "Persian Carpet", "9x9. Handwoven", ProductCategory.FURNISHING, 1000.45);
+			p.getTags().add(new ProductTag(2, "wool"));
+			p.getTags().add(new ProductTag(2, "draping"));
+			p.getTags().add(new ProductTag(2, "classy"));
+
+			prepo.save(p);
+			p = new Product(3, "Space Craft Lego", "580 pieces", ProductCategory.TOY, 776.00);
+			p.getTags().add(new ProductTag(3, "plastic"));
+			p.getTags().add(new ProductTag(3, "innovation"));
+			p.getTags().add(new ProductTag(3, "blocks"));
+
+			prepo.save(p);
 
 		};
 	}
-
-	@Transactional
-	public void seedItUp() {
-		Product p = new Product(1, "Kitchen Chimney", "6x4. Non-exhaust", ProductCategory.KITCHENELECTRONIC, 200.87);
-		productSeeds.put(1, p);
-		prepo.save(p);
-		p = new Product(2, "Persian Carpet", "9x9. Handwoven", ProductCategory.FURNISHING, 1000.45);
-		productSeeds.put(2, p);
-		prepo.save(p);
-		p = new Product(3, "Space Craft Lego", "580 pieces", ProductCategory.TOY, 776.00);
-		productSeeds.put(3, p);
-		prepo.save(p);
-
-		ptrepo.save(new ProductTag(3, "plastic"));
-		ptrepo.save(new ProductTag(3, "blocks"));
-		ptrepo.save(new ProductTag(3, "shapes"));
-		ptrepo.save(new ProductTag(2, "wool"));
-		ptrepo.save(new ProductTag(2, "royal"));
-		ptrepo.save(new ProductTag(2, "living"));
-		ptrepo.save(new ProductTag(1, "kitchen"));
-		ptrepo.save(new ProductTag(1, "fresh"));
-		ptrepo.save(new ProductTag(1, "carbon"));
-	}
-  
 }

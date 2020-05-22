@@ -1,4 +1,4 @@
-package com.ms.bootcamp.productmicroservice;
+package com.ms.bootcamp.productmicroservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

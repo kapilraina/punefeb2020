@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ms.bootcamp.discountmicroservice.DiscountResponse;
 
 @Service
+
 public class AuditService {
 
 	private final AuditStream auditStream;
@@ -29,7 +31,7 @@ public class AuditService {
 
 			String responseJSON = "";
 			try {
-				//Thread.sleep(2000);
+				// Thread.sleep(2000);
 				ObjectMapper obj = new ObjectMapper();
 				responseJSON = obj.writeValueAsString(response);
 				MessageChannel messageChannel = auditStream.outboundAudit();
@@ -38,7 +40,7 @@ public class AuditService {
 
 			} catch (Throwable e) {
 				log.error("\nCouldnt Emit Discount Stream. Error :" + e.getMessage());
-				log.info("\nLogging Discount Respnse as Fallback : "+responseJSON);
+				log.info("\nLogging Discount Respnse as Fallback : " + responseJSON);
 			}
 
 		});

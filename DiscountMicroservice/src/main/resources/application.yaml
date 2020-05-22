@@ -10,9 +10,70 @@ spring:
   zipkin:
     enabled: true
     base-url: ${discountms.zipkin.url:http://zipkin:9411/}
-  rabbitmq:
-    host: ${discountms.bus.rabbitmq.host:rabbitmq-master}
-    port: ${discountms.bus.rabbitmq.port:5672}
+#  rabbitmq:
+#    host: ${productms.bus.rabbitmq.host:rabbitmq-master}
+#    port: ${productms.bus.rabbitmq.port:5672}
+  cloud:
+    stream:
+      bindings: 
+        webaudit-out:
+         binder: rabbit-binder
+         destination: ${discountms.binding.auditout.destination:ex.webaudit}  #Exchange
+         group: ${discountms.binding.auditout.group:q.audit} # queue
+         
+        discountstream-out:
+         binder: kafka-binder
+         destination: ${discountms.binding.discountstreamout.destination:TX-DISCOUNTSTREAM} #Topic
+         group: ${discountms.binding.discountstreamout.group:APP_DISCOUNTMS}  
+         content-type: ${discountms.binding.discountstreamout.contenttype:application/json}
+          
+      rabbit: 
+        bindings:
+          webaudit-out:
+           producer:
+            bindQueue: ${discountms.binding.auditout.bindqueue:false}
+            routingKeyExpression: ${discountms.binding.auditout.routingKeyExpression:'rkwebauditshim1'}
+            declareExchange: false
+            exchangeType: direct
+      kafka:
+       bindings:
+        discountstream-out:
+         producer:
+          synchronous: false
+          
+          
+      binders:      
+        rabbit-binder:
+         type: rabbit
+         environment:
+            spring:
+              rabbitmq:
+               host: ${discountms.binder.rabbitmq.host:rabbitmq-master} 
+               port: ${discountms.binder.rabbitmq.port:5672}
+
+        kafka-binder:    
+         type: kafka
+         environment:
+          spring:
+            cloud:
+             stream:
+              kafka:
+               binder:
+                 brokers: ${discountms.binder.kafka.brokers:kafka1:9094,kafka2:9095} 
+                 defaultBrokerPort: ${discountms.binder.kafka.defaultbroker:9094} 
+                 autoCreateTopics: ${discountms.binder.kafka.autocreatetopics:true} 
+                 autoAddPartitions: ${discountms.binder.kafka.autoaddpartitions:true} 
+                 minPartitionCount: ${discountms.binder.kafka.partitioncount:2} 
+                 replicationFactor: ${discountms.binder.kafka.replicationfactor:2}  
+                           
+      default-binder: rabbit-binder
+        
+    bus:
+      destination: ${discountms.bus.destination:busXchange}
+      trace: 
+       enabled: ${discountms.bus.trace:true}      
+
+
   main:
     allow-bean-definition-overriding: true
 

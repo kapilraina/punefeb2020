@@ -1,53 +1,4 @@
-spring:
-  rabbitmq:
-    host: ${productms.bus.rabbitmq.host:rabbitmq-master}
-    port: ${productms.bus.rabbitmq.port:32562}
-  cloud:
-    stream:
-      bindings:
-        webaudit-out:
-         binder: rabbit-binder
-         destination: ex.webaudit         
-         producer:
-          bindQueue: false
-          routing-key-expression: '"rk.webaudit.shim.him"'
-          routing-key: '"rk.webaudit.shim.him"'
-          routingKeyExpression: '''rk.webaudit.shim.him'''
-        discountstream-out:
-         binder: kafka-binder
-         destination: T-DISCOUNTSTREAM
-         contentType: application/json
-         partitionCount: 2
-         replication-factor: 2
-      binders:
-      
-        rabbit-binder:
-         type: rabbit
-         environment:
-            spring:
-              rabbitmq:
-               host: rabbitmq-master
-               port: 32562
 
-        kafka-binder:    
-         type: kafka
-         environment:
-          spring:
-            cloud:
-             stream:
-              kafka:
-               binder:
-                  brokers: kafka1:9094,kafka2:9095
-                  defaultBrokerPort: 9094
-                  autoCreateTopics: true
-                  autoAddPartitions: true
-                  minPartitionCount:  2
-                  replicationFactor: 1         
-      default-binder: rabbit-binder
-    bus:
-     trace: 
-      enabled: ${discountms.bus.trace:true}
-      destination: ${discountms.bus.destination:busXchange}   
 #logging:
   #pattern: 
   #  console: "%d [%t] [%X{X-B3-TraceId} : %X{X-B3-SpanId}]  %-5p %C{2} - %m%n"
@@ -61,9 +12,9 @@ spring:
 #discountms.logging.root.level: info
 #discountms.logging.app.level: debug
 
-
-discountms.configserverurl: http://192.168.56.108:30375
-discountms.bus.rabbitmq.port: 32562
+discountms.zipkin.url: http://zipkin:9411/
+discountms.configserverurl: http://configserver:8888
+discountms.bus.rabbitmq.port: 5672
 
 discountms.eureka.instance.zone: zone_8761
 discountms.eureka.instance.leaseRenewalIntervalInSeconds: 2
@@ -71,8 +22,9 @@ discountms.eureka.instance.leaseExpirationDurationInSeconds: 5
 discountms.eureka.client.registerWithEureka: true
 discountms.eureka.client.fetchRegistry: true
 discountms.eureka.client.prefer-same-zone-eureka: true
-discountms.eureka.client.service-registry-url: http://eureka-1:30511/eureka
+discountms.eureka.client.service-registry-url: http://eureka:8761/eureka
 discountms.hystrix.metrics.polling-interval-ms: 3000
+discountms.binding.auditout.routingKeyExpression: '''rkwebauditshim1'''
 
 discountdata.discountmap.FURNISHING: 15.35
 discountdata.discountmap.KITCHENELECTRONIC: 17.22

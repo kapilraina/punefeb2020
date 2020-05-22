@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.ms.bootcamp.productmicroservice.ProductRepository;
 import com.ms.bootcamp.productmicroservice.model.DiscountRequest;
 import com.ms.bootcamp.productmicroservice.model.DiscountResponse;
 import com.ms.bootcamp.productmicroservice.model.Product;
 import com.ms.bootcamp.productmicroservice.model.ProductDTO;
+import com.ms.bootcamp.productmicroservice.repository.ProductRepository;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;

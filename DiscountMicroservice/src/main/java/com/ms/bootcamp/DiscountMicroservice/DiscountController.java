@@ -1,5 +1,7 @@
 package com.ms.bootcamp.discountmicroservice;
 
+import java.util.Random;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -49,7 +51,7 @@ public class DiscountController {
 	public DiscountResponse calculateDiscount(@RequestBody DiscountRequest request) {
 		log.info(request.toString());
 		double fixedCategoryDiscount = discountDataMap.getDiscountMap().get(request.getCategory());
-		double onSpotDiscount = Math.floor(Math.random() * 10);
+		double onSpotDiscount = (new Random()).nextInt(20);
 		double discountper = fixedCategoryDiscount + onSpotDiscount;
 		double drp = Math.ceil(request.getMrp() - ((discountper / 100) * request.getMrp()));
 		DiscountResponse response = new DiscountResponse(request.getCategory(), request.getMrp(), drp,
@@ -67,20 +69,15 @@ public class DiscountController {
 
 		return Math.ceil(Math.random() * 10);
 	}
-	
-	
-	
-	
+
 	public void pubAuditEvent(DiscountResponse response) {
 		auditService.pubAuditEvent(response);
 	}
 
-	
 	public void pubAuditEventStream(DiscountResponse response) {
 		discountStreamService.pubAuditEventStream(response);
 	}
 
-	
 	public void createAndLogMetrics(DiscountResponse response) {
 		discountMetricsService.createAndLogMetrics(response);
 	}

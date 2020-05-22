@@ -1,4 +1,4 @@
-package com.ms.bootcamp.productmicroservice;
+package com.ms.bootcamp.productmicroservice.controller;
 
 import java.util.List;
 import java.util.Optional;
