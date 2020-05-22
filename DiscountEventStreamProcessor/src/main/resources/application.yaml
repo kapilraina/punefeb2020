@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        simpleDiscountPipeline-in-0:
+          destination: TX-DISCOUNTSTREAM
+          consumer:
+           use-native-decoding: false
+          group: simpleDiscountPipeline  
+        winaggdisc-in-0:
+          destination: TX-DISCOUNTSTREAM
+          consumer:
+           use-native-decoding: false          
+        winaggdisc-out-0:
+          destination: TX-AGG-DISCOUNTSTREAM
+          #producer:
+            
+      kafka:
+        binder:
+          brokers: kafka1:9094,kafka2:9095
+        streams:
+          binder:
+            application-id: simpleDiscountPipeline
+            configuration:
+              commit.interval.ms: 1000
+#              default:
+#                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#                value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+
+
+server:
+  port: 9991
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#org.apache.kafka.streams.kstream.WindowedSerdes$TimeWindowedSerde
+#Developers can leverage the framework’s content-type conversion for inbound and outbound conversion or switch to the native SerDe’s provided by Kafka.
+                        

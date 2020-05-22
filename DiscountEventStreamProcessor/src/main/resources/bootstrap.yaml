@@ -1,0 +1,11 @@
+---
+spring:
+  profiles:
+    active: ${discountstreamproc.activeprofiles:dev}
+  application:
+    name: discountstreamproc
+  cloud:
+    config:
+      uri: ${discountstreamproc.configserverurl:http://configserver:8888}
+      fail-fast: true
+      label: ${discountstreamproc.configserver.labels:master}
