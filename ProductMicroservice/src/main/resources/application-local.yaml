@@ -1,4 +1,4 @@
-discountms.zipkin.url: http://zipkin:9411/
+productms.zipkin.url: http://zipkin:9411/
 productms.datasource.url:  jdbc:h2:mem:productLocalDB;DB_CLOSE_ON_EXIT=TRUE
 productms.datasource.username: sa
 productms.datasource.password: 
