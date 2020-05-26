@@ -1,0 +1,74 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: webauditms
+    version: v1
+  name: webauditms
+
+spec: 
+  strategy: # Default, so usually not specified
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1  # specifies the maximum number of Pods that can be created over the desired number of Pods
+      maxUnavailable: 25% #specifies the maximum number of Pods that can be unavailable during the update process
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: webauditms
+      version: v1
+  template: 
+    metadata: 
+      labels: 
+        app: webauditms
+        version: v1
+    spec: 
+      containers: 
+        - 
+          image: "kapilshekharraina/webauditmslab:1"
+          imagePullPolicy: Always
+          name: webauditms
+          ports: 
+          - containerPort: 8077            
+          env:
+            - name:   webauditms.activeprofiles
+              value: "dev"
+            - name:   webauditms.configserver.labels
+              value: "master"
+            - name:   webauditms.configserverurl
+              value: "http://cloudconfigserver:8888"       
+          resources:
+            requests:
+                memory: "256Mi"
+                cpu: "500m"
+            limits:
+                memory: "786Mi"
+                cpu: "1000m"  
+          readinessProbe: # Readiness verifies if our Pod is ready to start receiving traffic. Our Pod is ready when all of its containers are ready
+            httpGet:
+                path: /actuator/health
+                port: 9077
+            initialDelaySeconds: 30 # After creating the container, wait n seconds before initiating the probe
+            timeoutSeconds: 5 # How long we wait before timing out the probe, defaulting to 1 second; the minimum is again 1 second
+            periodSeconds: 20 # How often this probe should be run, defaulting to 10 seconds; the minimum is 1 second
+            failureThreshold: 10 # Try n times before giving up. In the case of readiness, our pod will be marked as not ready, whereas giving up in case of liveness means restarting the Pod. The default here is 3 failures, with the minimum being 1
+            successThreshold: 1 # his is the minimum number of consecutive successes for the probe to be considered successful after having failed. It defaults to 1 success and its minimum is 1 as well
+            
+          livenessProbe: # liveness checks if our Pod should be restarted. It can pick up use cases where our application is running but is in a state where it's unable to make progress; for example, it's in deadlock
+            httpGet:
+                path: /actuator/health
+                port: 9077
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 80
+            failureThreshold: 10
+            successThreshold: 1   
+          volumeMounts:
+            - mountPath: /var/log
+              name: webauditms-logs            
+      volumes:
+       - name: webauditms-logs
+         hostPath:
+            path: /var/log
+            type: Directory                         

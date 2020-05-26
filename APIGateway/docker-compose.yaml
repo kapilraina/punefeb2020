@@ -1,0 +1,16 @@
+version: '2.2'
+
+services:
+  apigateway:
+    image: kapilshekharraina/apigatewaylab:1
+    cpu_percent: 10
+    mem_reservation: 75m
+    #container_name: cloudconfigbus
+   # environment:
+   #     - cloudconfigbus.activeprofiles=startup, qa
+    ports:
+      - "8080:8080"
+ 
+networks:
+ default:
+  name: ms-chassis-nw

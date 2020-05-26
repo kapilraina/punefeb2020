@@ -1,0 +1,16 @@
+version: '2.2'
+
+services:
+  discountms:
+    image: kapilshekharraina/discountmslab:1
+    cpu_percent: 10
+    mem_reservation: 75m
+    #container_name: cloudconfigbus
+   # environment:
+   #     - cloudconfigbus.activeprofiles=startup, qa
+    #ports:
+    #  - "8761:8761"
+ 
+networks:
+ default:
+  name: ms-chassis-nw

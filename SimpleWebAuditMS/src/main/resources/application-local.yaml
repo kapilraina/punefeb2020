@@ -1,0 +1,23 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2 
+      settings:
+        web-allow-others: true   
+
+webauditms.datasource.url: jdbc:h2:mem:webauditDb;DB_CLOSE_DELAY=-1
+webauditms.datasource.username: sa 
+webauditms.datasource.password:
+webauditms.datasource.driver: org.h2.Driver
+
+webauditms.sleuth.trace128: true
+webauditms.zipkin.url: http://zipkin:9411/
+webauditms.eureka.instance.zone: zone_8761
+webauditms.eureka.instance.leaseRenewalIntervalInSeconds: 2
+webauditms.eureka.instance.leaseExpirationDurationInSeconds: 5
+webauditms.eureka.client.registerWithEureka: true
+webauditms.eureka.client.fetchRegistry: true
+webauditms.eureka.client.prefer-same-zone-eureka: true
+webauditms.eureka.client.service-registry-url: http://eurekaA:8761/eureka
+webauditms.hystrix.metrics.polling-interval-ms: 3000
