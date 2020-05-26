@@ -1,2 +1,0 @@
-rabbit=org.springframework.cloud.stream.binder.rabbit.config.RabbitServiceAutoConfiguration
-kafka=org.springframework.cloud.stream.binder.kafka.config.KafkaBinderConfiguration
