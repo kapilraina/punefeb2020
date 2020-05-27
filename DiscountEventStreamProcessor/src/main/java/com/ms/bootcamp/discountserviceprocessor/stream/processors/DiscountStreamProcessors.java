@@ -15,8 +15,11 @@ import org.apache.kafka.streams.kstream.TimeWindowedKStream;
 import org.apache.kafka.streams.kstream.TimeWindows;
 import org.apache.kafka.streams.kstream.Windowed;
 import org.apache.kafka.streams.state.WindowStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.ms.bootcamp.discountserviceprocessor.ws.DiscountSocketPushService;
 
 @Configuration
 public class DiscountStreamProcessors {
@@ -26,6 +29,9 @@ public class DiscountStreamProcessors {
 	 * System.out.println(k + " : " + v)); }; }
 	 */
 
+	@Autowired
+	private DiscountSocketPushService dsps;
+
 	@Bean
 	public Function<KStream<String, DiscountResponse>, KStream<String, AggregatedWindowedDiscount>> winaggdisc() {
 
@@ -34,7 +40,7 @@ public class DiscountStreamProcessors {
 			KGroupedStream<String, DiscountResponse> kGroupedStream = kstream.groupByKey();
 
 			TimeWindowedKStream<String, DiscountResponse> timeWindowedKStream = kGroupedStream
-					.windowedBy(TimeWindows.of(Duration.ofSeconds(1000)));
+					.windowedBy(TimeWindows.of(Duration.ofSeconds(300)));
 
 			KTable<Windowed<String>, Double> kAggDiscountTable = timeWindowedKStream.aggregate(
 
@@ -46,7 +52,8 @@ public class DiscountStreamProcessors {
 
 			return kAggDiscountTable.toStream()
 					.map((k, v) -> KeyValue.pair(k.key(), new AggregatedWindowedDiscount(k.key(), v,
-							new Date(k.window().start()), new Date(k.window().end()))));
+							new Date(k.window().start()), new Date(k.window().end()))))
+					.peek((k, v) -> dsps.pipeToWebSocket(v));
 
 		};
 	}

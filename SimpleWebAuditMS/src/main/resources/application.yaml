@@ -85,5 +85,3 @@ management:
     prometheus:
       enabled: true
              
-  server:
-    port: ${webauditms.management.server.port:9077}

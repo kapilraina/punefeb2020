@@ -5,7 +5,7 @@ import java.util.Date;
 public class AggregatedWindowedDiscount {
 
 	private String category;
-	private double windotTotal;
+	private double windowTotal;
 	private Date windowStart;
 	private Date windowEnd;
 
@@ -14,12 +14,20 @@ public class AggregatedWindowedDiscount {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AggregatedWindowedDiscount(String category, double windotTotal, Date windowStart, Date windowEnd) {
+	public AggregatedWindowedDiscount(String category, double windowTotal, Date windowStart, Date windowEnd) {
 		super();
 		this.category = category;
-		this.windotTotal = windotTotal;
+		this.windowTotal = windowTotal;
 		this.windowStart = windowStart;
 		this.windowEnd = windowEnd;
+	}
+
+	public double getWindowTotal() {
+		return windowTotal;
+	}
+
+	public void setWindowTotal(double windowTotal) {
+		this.windowTotal = windowTotal;
 	}
 
 	public String getCategory() {
@@ -28,14 +36,6 @@ public class AggregatedWindowedDiscount {
 
 	public void setCategory(String category) {
 		this.category = category;
-	}
-
-	public double getWindotTotal() {
-		return windotTotal;
-	}
-
-	public void setWindotTotal(double windotTotal) {
-		this.windotTotal = windotTotal;
 	}
 
 	public Date getWindowStart() {
@@ -50,8 +50,14 @@ public class AggregatedWindowedDiscount {
 		return windowEnd;
 	}
 
-	public void setWindowEnd(Date windowEnd) {
+	public void setWindowEnd(Date windowEnd) { 
 		this.windowEnd = windowEnd;
+	}
+
+	@Override
+	public String toString() {
+		return "AggregatedWindowedDiscount [category=" + category + ", windowTotal=" + windowTotal + ", windowStart="
+				+ windowStart + ", windowEnd=" + windowEnd + "]";
 	}
 
 }
