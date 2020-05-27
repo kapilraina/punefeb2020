@@ -3,11 +3,13 @@
 <head>
 <title>RealTime Discount Stream</title>
 <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/Chart.min.css" rel="stylesheet">
 <!-- <link href="/style.css" rel="stylesheet"> -->
 <script src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/app.js"></script>
+<script src="/Chart.min.js"></script>
 </head>
 <body>
 	<noscript>
@@ -30,7 +32,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<p id="timeRange"></p>
+				<div id="timeRange"></div>
 				<table id="conversation" class="table table-striped">
 					<thead>
 						<tr>
@@ -41,6 +43,9 @@
 					<tbody id="messages">
 					</tbody>
 				</table>
+			</div>
+			<div class="col-md-12">
+				<canvas id="discChart" width="200px" height="200px"></canvas>
 			</div>
 		</div>
 

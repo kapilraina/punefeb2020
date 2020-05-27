@@ -2,6 +2,8 @@ var stompClient = null;
 var stompSubscribedClient = null;
 var user = null;
 var windowedData = null;
+var ctx = null;
+var discChart = null;
 
 function setConnected(connected) {
 	$("#connect").prop("disabled", connected);
@@ -27,6 +29,17 @@ function connect() {
 
 			});
 			stompClient.send("/app/register", {}, {});
+			// ctx = document.getElementById("discChart").getContext('2d');
+			var ctx = $('#discChart');
+			discChart = new Chart(ctx, {
+				type : 'bar',
+				data : {},
+				options : {}
+			});
+			discChart.data.labels = new Array();
+			discChart.data.datasets = new Array();
+			discChart.data.datasets.push({label:'Aggregated Discounts',data: new Array()});
+
 		});
 
 		/*
@@ -88,10 +101,14 @@ function onMessageReceived(payload) {
 			windowedData.windowEnd = windowEnd;
 			windowedData.category = category;
 			windowedData.windowTotal = windowTotal;
-			
+
 			$("#timeRange").fadeOut(function() {
 				$(this).text(windowStart + " - " + windowEnd).fadeIn();
 			});
+
+			discChart.data.labels = new Array();
+			discChart.data.datasets = new Array();
+			discChart.data.datasets.push({label:'Aggregated Discounts',data: new Array()});
 		}
 
 	}
@@ -104,10 +121,17 @@ function onMessageReceived(payload) {
 
 	} else {
 		$("#messages").append(
-				"<tr id='" + category + "'><td>" + messageObj.category
-						+ "</td><td id=data_" + category + ">"
-						+ messageObj.windowTotal + "</td></tr>");
+				"<tr id='" + category + "'><td>" + category
+						+ "</td><td id=data_" + category + ">" + windowTotal
+						+ "</td></tr>");
 	}
+
+	// chart
+	discChart.data.labels.push(category);
+	discChart.data.datasets.forEach((dataset) => {
+        dataset.data.push(windowTotal);
+    });
+	discChart.update();
 
 }
 
