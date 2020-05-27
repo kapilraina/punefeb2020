@@ -40,7 +40,7 @@ public class DiscountStreamProcessors {
 			KGroupedStream<String, DiscountResponse> kGroupedStream = kstream.groupByKey();
 
 			TimeWindowedKStream<String, DiscountResponse> timeWindowedKStream = kGroupedStream
-					.windowedBy(TimeWindows.of(Duration.ofSeconds(300)));
+					.windowedBy(TimeWindows.of(Duration.ofSeconds(10)));
 
 			KTable<Windowed<String>, Double> kAggDiscountTable = timeWindowedKStream.aggregate(
 
