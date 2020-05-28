@@ -16,8 +16,71 @@ function setConnected(connected) {
 	$("#messages").html("");
 }
 
+function initChart()
+{
+	ctx = document.getElementById("discChart");
+	discChart = new Chart(ctx, {
+		  type: 'bar',
+		  data: {
+		    labels: [],
+		    datasets: [{
+		      label: 'Discount Aggregate By Category',
+		      data: [],
+		      backgroundColor: [
+		        'rgba(255, 99, 132, 0.2)',
+		        'rgba(54, 162, 235, 0.2)',
+		        'rgba(255, 206, 86, 0.2)',
+		        'rgba(75, 192, 192, 0.2)',
+		        'rgba(153, 102, 255, 0.2)',
+		        'rgba(255, 159, 64, 0.2)',
+		        'rgba(255, 99, 132, 0.2)',
+		        'rgba(54, 162, 235, 0.2)',
+		        'rgba(255, 206, 86, 0.2)',
+		        'rgba(75, 192, 192, 0.2)',
+		        'rgba(153, 102, 255, 0.2)',
+		        'rgba(255, 159, 64, 0.2)'
+		      ],
+		      borderColor: [
+		        'rgba(255,99,132,1)',
+		        'rgba(54, 162, 235, 1)',
+		        'rgba(255, 206, 86, 1)',
+		        'rgba(75, 192, 192, 1)',
+		        'rgba(153, 102, 255, 1)',
+		        'rgba(255, 159, 64, 1)',
+		        'rgba(255,99,132,1)',
+		        'rgba(54, 162, 235, 1)',
+		        'rgba(255, 206, 86, 1)',
+		        'rgba(75, 192, 192, 1)',
+		        'rgba(153, 102, 255, 1)',
+		        'rgba(255, 159, 64, 1)'
+		      ],
+		      borderWidth: 1
+		    }]
+		  },
+		  options: {
+		    responsive: false,
+		    scales: {
+		      xAxes: [{
+		        ticks: {
+		          maxRotation: 90,
+		          minRotation: 80
+		        }
+		      }],
+		      yAxes: [{
+		        ticks: {
+		          beginAtZero: true
+		        }
+		      }]
+		    }
+		  }
+		});
+
+
+
+}
+
 function connect() {
-	{
+	
 
 		var socket = new SockJS('/websock');
 		stompClient = Stomp.over(socket);
@@ -29,26 +92,15 @@ function connect() {
 
 			});
 			stompClient.send("/app/register", {}, {});
-			// ctx = document.getElementById("discChart").getContext('2d');
-			var ctx = $('#discChart');
-			discChart = new Chart(ctx, {
-				type : 'bar',
-				data : {},
-				options : {}
-			});
-			discChart.data.labels = new Array();
-			discChart.data.datasets = new Array();
-			discChart.data.datasets.push({label:'Aggregated Discounts',data: new Array()});
-
-		});
-
+			initChart();
+			
 		/*
 		 * setTimeout(function() { {
 		 * 
 		 * 
 		 * console.log("Connected " + user); } }, 3000);
 		 */
-	}
+	});
 
 }
 
@@ -90,6 +142,7 @@ function onMessageReceived(payload) {
 		windowedData.category = category;
 		windowedData.windowTotal = windowTotal;
 		$("#timeRange").text(windowStart + " - " + windowEnd);
+		initChart();
 
 	} else {
 
@@ -105,10 +158,8 @@ function onMessageReceived(payload) {
 			$("#timeRange").fadeOut(function() {
 				$(this).text(windowStart + " - " + windowEnd).fadeIn();
 			});
+			initChart();
 
-			discChart.data.labels = new Array();
-			discChart.data.datasets = new Array();
-			discChart.data.datasets.push({label:'Aggregated Discounts',data: new Array()});
 		}
 
 	}
@@ -127,10 +178,25 @@ function onMessageReceived(payload) {
 	}
 
 	// chart
-	discChart.data.labels.push(category);
-	discChart.data.datasets.forEach((dataset) => {
-        dataset.data.push(windowTotal);
-    });
+	// alert(discChart);
+	var labelIndex = discChart.data.labels.indexOf(category);
+	
+	if (labelIndex === -1)
+	{
+		discChart.data.labels.push(category);
+		discChart.data.datasets.forEach((dataset) => {
+	        dataset.data.push(windowTotal);
+	    });
+	}
+	else
+	{
+		//alert(labelIndex);
+		discChart.data.datasets.forEach((dataset) => {
+	        dataset.data.splice(labelIndex,0,windowTotal);
+	    });
+	}
+	
+
 	discChart.update();
 
 }
