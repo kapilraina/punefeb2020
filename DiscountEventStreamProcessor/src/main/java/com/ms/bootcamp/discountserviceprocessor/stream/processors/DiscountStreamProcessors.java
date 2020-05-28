@@ -2,6 +2,7 @@ package com.ms.bootcamp.discountserviceprocessor.stream.processors;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.apache.kafka.common.serialization.Serdes;
@@ -40,7 +41,7 @@ public class DiscountStreamProcessors {
 			KGroupedStream<String, DiscountResponse> kGroupedStream = kstream.groupByKey();
 
 			TimeWindowedKStream<String, DiscountResponse> timeWindowedKStream = kGroupedStream
-					.windowedBy(TimeWindows.of(Duration.ofSeconds(60)));
+					.windowedBy(TimeWindows.of(Duration.ofSeconds(3600)));
 
 			KTable<Windowed<String>, Double> kAggDiscountTable = timeWindowedKStream.aggregate(
 
@@ -53,9 +54,27 @@ public class DiscountStreamProcessors {
 			return kAggDiscountTable.toStream()
 					.map((k, v) -> KeyValue.pair(k.key(), new AggregatedWindowedDiscount(k.key(), v,
 							new Date(k.window().start()), new Date(k.window().end()))))
-					.peek((k, v) -> dsps.pipeToWebSocket(v));
+					.peek((k, v) -> dsps.pipeToWebAggSocket(v));
 
 		};
+	}
+
+	@Bean
+	public Consumer<KStream<String, DiscountResponse>> windiscbyinstance() {
+
+		return kstream -> {
+
+			kstream.peek((k, v) -> {
+				WindowedDiscountByInstance bbi = new WindowedDiscountByInstance();
+
+				bbi.setCategory(k);
+				bbi.setDiscountApplied(v.getMrp() - v.getDrp());
+				bbi.setTimestamp(new Date(v.getTimestamp()));
+				dsps.pipeToWebInstanceSocket(bbi);
+
+			});
+		};
+
 	}
 
 }

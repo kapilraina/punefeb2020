@@ -2,8 +2,12 @@ var stompClient = null;
 var stompSubscribedClient = null;
 var user = null;
 var windowedData = null;
+var windowediData = null;
 var ctx = null;
 var discChart = null;
+
+var ictx = null;
+var idiscChart = null;
 
 function setConnected(connected) {
 	$("#connect").prop("disabled", connected);
@@ -18,13 +22,14 @@ function setConnected(connected) {
 
 function initChart()
 {
+	
 	ctx = document.getElementById("discChart");
 	discChart = new Chart(ctx, {
 		  type: 'bar',
 		  data: {
 		    labels: [],
 		    datasets: [{
-		      label: 'Discount Aggregate By Category',
+		      label: 'Discount Aggregate By Category(Windowed)',
 		      data: [],
 		      backgroundColor: [
 		        'rgba(255, 99, 132, 0.2)',
@@ -62,13 +67,13 @@ function initChart()
 		    scales: {
 		      xAxes: [{
 		        ticks: {
-		          maxRotation: 90,
-		          minRotation: 80
+		      // maxRotation: 90,
+		      // minRotation: 80
 		        }
 		      }],
 		      yAxes: [{
 		        ticks: {
-		          beginAtZero: true
+		       // beginAtZero: true
 		        }
 		      }]
 		    }
@@ -78,6 +83,28 @@ function initChart()
 
 
 }
+
+function initiChart()
+{
+	
+	ictx = document.getElementById("idiscChart");
+	idiscChart = new Chart(ictx, {
+	    type: 'bubble',
+	    data: {datasets:[]},
+		  options: {
+			  
+			    scales: {
+			      xAxes: [{
+			        type: 'time',
+			        distribution: 'series'
+			      }]
+			    }
+			  }
+	});
+
+
+}
+
 
 function connect() {
 	
@@ -91,8 +118,14 @@ function connect() {
 				onMessageReceived(payload);
 
 			});
+			
+			stompClient.subscribe('/topic/messages_i', function(payload) {
+				oniMessageReceived(payload);
+
+			});
 			stompClient.send("/app/register", {}, {});
 			initChart();
+			initiChart();
 			
 		/*
 		 * setTimeout(function() { {
@@ -190,7 +223,7 @@ function onMessageReceived(payload) {
 	}
 	else
 	{
-		//alert(labelIndex);
+		// alert(labelIndex);
 		discChart.data.datasets.forEach((dataset) => {
 	        dataset.data.splice(labelIndex,0,windowTotal);
 	    });
@@ -199,6 +232,46 @@ function onMessageReceived(payload) {
 
 	discChart.update();
 
+}
+
+function oniMessageReceived(payload) {
+	// console.log(JSON.stringify(payload));
+	var messageObj = JSON.parse(payload.body);
+	var windowStart = messageObj.windowStart;
+	var windowEnd = messageObj.windowEnd
+	var category = messageObj.category
+	var discountApplied = messageObj.discountApplied;
+	var timestamp = messageObj.timestamp;
+	
+	if (windowediData === null) {
+		
+		initiChart();
+
+	} 
+	
+	if ($("#i" + category + "").length) {
+
+		$("#idata_" + category + "").fadeOut(function() {
+			$(this).text(discountApplied).fadeIn();
+		});
+		
+		$("#idatats_" + category + "").fadeOut(function() {
+			$(this).text(timestamp).fadeIn();
+		});
+
+	} else {
+		$("#imessages").append(
+				"<tr id='i" + category + "'><td>" + category
+						+ "</td><td id=idata_" + category + ">" + discountApplied
+						+ "</td><td id=idatats_"+category +">"+timestamp+"</td></tr>");
+	}
+	
+	 var ds = { label:[category],data:[{x: new Date(), y: discountApplied, r: 20}] };
+
+	
+	 idiscChart.data.datasets.push(ds);
+	 idiscChart.update();	
+	
 }
 
 $(function() {

@@ -6,9 +6,29 @@ public class DiscountResponse {
 	private double drp;
 	private double fixedCategoryDiscount;
 	private double onSpotDiscount;
+	private long timestamp;
 	
 	
 	
+	public DiscountResponse(ProductCategory category, double mrp, double drp, double fixedCategoryDiscount,
+			double onSpotDiscount, long timestamp) {
+		super();
+		this.category = category;
+		this.mrp = mrp;
+		this.drp = drp;
+		this.fixedCategoryDiscount = fixedCategoryDiscount;
+		this.onSpotDiscount = onSpotDiscount;
+		this.timestamp = timestamp;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public DiscountResponse() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -17,7 +37,7 @@ public class DiscountResponse {
 	@Override
 	public String toString() {
 		return "DiscountResponse [category=" + category + ", mrp=" + mrp + ", drp=" + drp + ", fixedCategoryDiscount="
-				+ fixedCategoryDiscount + ", onSpotDiscount=" + onSpotDiscount + "]";
+				+ fixedCategoryDiscount + ", onSpotDiscount=" + onSpotDiscount + ", timestamp=" + timestamp + "]";
 	}
 	public ProductCategory getCategory() {
 		return category;

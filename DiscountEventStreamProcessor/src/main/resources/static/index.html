@@ -9,7 +9,8 @@
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/app.js"></script>
-<script src="/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 <body>
 	<noscript>
@@ -30,26 +31,52 @@
 				</form>
 			</div>
 		</div>
+		<hr />
 		<div class="row">
-			<div class="col-md-12">
-				<div id="timeRange"></div>
+			<div class="col-md-5">
+				<div id="timeRange" class="text-primary"></div>
 				<table id="conversation" class="table table-striped">
 					<thead>
 						<tr>
 							<th>Category</th>
-							<th>Aggregated Discount(In the time window)</th>
+							<th>Aggregated Discount</th>
 						</tr>
 					</thead>
 					<tbody id="messages">
 					</tbody>
 				</table>
+
+			</div>
+			<div class=".col-md-pull-8">
+				<canvas id="discChart" width="400" height="250"></canvas>
 			</div>
 
 		</div>
 
-		
-			<canvas id="discChart" width="300" height="400"></canvas>
-		
+<hr/>
+		<div class="row">
+			<div class="col-md-5">
+				<table  id="conversation" class="table table-striped">
+					<thead>
+						<tr>
+							<th>Category</th>
+							<th>Discount</th>
+							<th>Timestamp</th>
+						</tr>
+					</thead>
+					<tbody id="imessages">
+					</tbody>
+				</table>
+
+			</div>
+			<div class=".col-md-pull-8">
+				<canvas id="idiscChart" width="100" height="100"></canvas>
+			</div>
+
+		</div>
+
+
+
 
 	</div>
 </body>

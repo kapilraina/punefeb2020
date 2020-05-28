@@ -10,17 +10,26 @@ spring:
         winaggdisc-in-0:
           destination: TX-DISCOUNTSTREAM
           consumer:
-           use-native-decoding: false          
+           use-native-decoding: false 
         winaggdisc-out-0:
           destination: TX-AGG-DISCOUNTSTREAM
           #producer:
-            
+        windiscbyinstance-in-0:
+          destination: TX-DISCOUNTSTREAM
+          consumer:
+           use-native-decoding: false  
+      function:
+        definition: windiscbyinstance;winaggdisc      
       kafka:
         binder:
           brokers: kafka1:9094,kafka2:9095
         streams:
           binder:
-            application-id: simpleDiscountPipeline
+            functions:
+              winaggdisc:
+               applicationId: winaggdisc-app
+              windiscbyinstance:
+               applicationId: windiscbyinstance-app
             configuration:
               commit.interval.ms: 1000
 #              default:

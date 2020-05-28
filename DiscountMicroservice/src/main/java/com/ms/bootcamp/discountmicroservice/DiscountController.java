@@ -1,5 +1,6 @@
 package com.ms.bootcamp.discountmicroservice;
 
+import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
@@ -56,6 +57,7 @@ public class DiscountController {
 		double drp = Math.ceil(request.getMrp() - ((discountper / 100) * request.getMrp()));
 		DiscountResponse response = new DiscountResponse(request.getCategory(), request.getMrp(), drp,
 				fixedCategoryDiscount, onSpotDiscount);
+		response.setTimestamp((new Date()).getTime());
 
 		pubAuditEvent(response);
 		pubAuditEventStream(response);
