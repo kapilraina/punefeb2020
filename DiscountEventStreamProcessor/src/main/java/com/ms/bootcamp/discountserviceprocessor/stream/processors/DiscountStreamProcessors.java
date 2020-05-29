@@ -68,7 +68,7 @@ public class DiscountStreamProcessors {
 				WindowedDiscountByInstance bbi = new WindowedDiscountByInstance();
 
 				bbi.setCategory(k);
-				bbi.setDiscountApplied(v.getMrp() - v.getDrp());
+				bbi.setDiscountApplied(v.getFixedCategoryDiscount() + v.getOnSpotDiscount());
 				bbi.setTimestamp(v.getTimestamp());
 				dsps.pipeToWebInstanceSocket(bbi);
 

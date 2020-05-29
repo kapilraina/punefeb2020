@@ -86,7 +86,7 @@ var lineChartOptions = 	{
 			},
 			scaleLabel: {
 				display: true,
-				labelString: 'Discount Applied ($)'
+				labelString: 'Discount Applied (%)'
 			}
 		}]
 	},
@@ -158,7 +158,7 @@ function initChart()
 		        'rgba(153, 102, 255, 1)',
 		        'rgba(255, 159, 64, 1)'
 		      ],
-		      borderWidth: 1
+		      borderWidth: 0.5
 		    }]
 		  },
 		  options: {
@@ -189,7 +189,7 @@ function initChart()
 		        },
 				scaleLabel: {
 					display: true,
-					labelString: 'Aggregated Discount Applied'
+					labelString: 'Aggregated Discount Applied ($)'
 				}
 		        
 		      }]
