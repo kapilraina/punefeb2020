@@ -5,7 +5,7 @@ import java.util.Date;
 public class WindowedDiscountByInstance {
 	private String category;
 	private double discountApplied;
-	private Date timestamp;
+	private long timestamp;
 	private Date windowStart;
 	private Date windowEnd;
 
@@ -20,7 +20,7 @@ public class WindowedDiscountByInstance {
 		// TODO Auto-generated constructor stub
 	}
 
-	public WindowedDiscountByInstance(String category, double discountApplied, Date timestamp, Date windowStart,
+	public WindowedDiscountByInstance(String category, double discountApplied, long timestamp, Date windowStart,
 			Date windowEnd) {
 		super();
 		this.category = category;
@@ -46,11 +46,11 @@ public class WindowedDiscountByInstance {
 		this.discountApplied = discountApplied;
 	}
 
-	public Date getTimestamp() {
+	public long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 

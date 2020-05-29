@@ -33,7 +33,8 @@ public class DiscountSocketPushService {
 		WindowedDiscountByInstanceSocksPayload wdisp = new WindowedDiscountByInstanceSocksPayload();
 		wdisp.setCategory(wdi.getCategory());
 		wdisp.setDiscountApplied(df.format(wdi.getDiscountApplied()));
-		wdisp.setTimestamp(sdf.format(wdi.getTimestamp()));
+		wdisp.setTimestamp(wdi.getTimestamp());
+		wdisp.setFormattedTimestamp(sdf.format(wdi.getTimestamp()));
 		System.out.println("Pipping :" + wdisp);
 		template.convertAndSend("/topic/messages_i", wdisp);
 	}

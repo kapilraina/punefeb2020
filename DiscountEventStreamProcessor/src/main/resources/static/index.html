@@ -9,8 +9,10 @@
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/app.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 <body>
 	<noscript>
@@ -53,10 +55,10 @@
 
 		</div>
 
-<hr/>
+		<hr />
 		<div class="row">
 			<div class="col-md-5">
-				<table  id="conversation" class="table table-striped">
+				<table id="conversation" class="table table-striped">
 					<thead>
 						<tr>
 							<th>Category</th>
@@ -70,7 +72,15 @@
 
 			</div>
 			<div class=".col-md-pull-8">
-				<canvas id="idiscChart" width="100" height="100"></canvas>
+		<!-- 		<select id="unit">
+					<option value="second">Second</option>
+					<option value="minute">Minute</option>
+					<option value="hour">Hour</option>
+					<option value="day" selected>Day</option>
+					<option value="month">Month</option>
+					<option value="year">Year</option>
+				</select> -->
+				<canvas id="idiscChart" width="10" height="10"></canvas>
 			</div>
 
 		</div>

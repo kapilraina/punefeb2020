@@ -4,7 +4,8 @@ public class WindowedDiscountByInstanceSocksPayload {
 
 	private String category;
 	private String discountApplied;
-	private String timestamp;
+	private long timestamp;
+	private String formattedTimestamp;
 	private String windowStart;
 	private String windowEnd;
 
@@ -29,12 +30,22 @@ public class WindowedDiscountByInstanceSocksPayload {
 		this.discountApplied = discountApplied;
 	}
 
-	public String getTimestamp() {
+	
+
+	public long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(String timestamp) {
+	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getFormattedTimestamp() {
+		return formattedTimestamp;
+	}
+
+	public void setFormattedTimestamp(String formattedTimestamp) {
+		this.formattedTimestamp = formattedTimestamp;
 	}
 
 	public String getWindowStart() {
@@ -53,12 +64,14 @@ public class WindowedDiscountByInstanceSocksPayload {
 		this.windowEnd = windowEnd;
 	}
 
-	public WindowedDiscountByInstanceSocksPayload(String category, String discountApplied, String timestamp,
-			String windowStart, String windowEnd) {
+
+	public WindowedDiscountByInstanceSocksPayload(String category, String discountApplied, long timestamp,
+			String formattedTimestamp, String windowStart, String windowEnd) {
 		super();
 		this.category = category;
 		this.discountApplied = discountApplied;
 		this.timestamp = timestamp;
+		this.formattedTimestamp = formattedTimestamp;
 		this.windowStart = windowStart;
 		this.windowEnd = windowEnd;
 	}
@@ -66,7 +79,8 @@ public class WindowedDiscountByInstanceSocksPayload {
 	@Override
 	public String toString() {
 		return "WindowedDiscountByInstanceSocksPayload [category=" + category + ", discountApplied=" + discountApplied
-				+ ", timestamp=" + timestamp + ", windowStart=" + windowStart + ", windowEnd=" + windowEnd + "]";
+				+ ", timestamp=" + timestamp + ", formattedTimestamp=" + formattedTimestamp + ", windowStart="
+				+ windowStart + ", windowEnd=" + windowEnd + "]";
 	}
 
 }

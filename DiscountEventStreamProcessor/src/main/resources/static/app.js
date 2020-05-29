@@ -9,6 +9,82 @@ var discChart = null;
 var ictx = null;
 var idiscChart = null;
 
+var bgColorPallet = [
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)'
+  ];
+
+var borderColorPallet = [
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(255,99,132,1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)'
+  ];
+
+var lineChartOptions = 	{
+	animation: {
+		duration: 0
+	},
+	scales: {
+		xAxes: [{
+			type: 'time',
+			distribution: 'series',
+			offset: true,
+			ticks: {
+				major: {
+					enabled: true,
+					fontStyle: 'bold'
+				},
+				source: 'data',
+				autoSkip: true,
+				autoSkipPadding: 75,
+				maxRotation: 0,
+				sampleSize: 100
+			}
+		}],
+		yAxes: [{
+			gridLines: {
+				drawBorder: false
+			},
+			scaleLabel: {
+				display: true,
+				labelString: 'Discount Applied ($)'
+			}
+		}]
+	},
+	tooltips: {
+		intersect: false,
+		mode: 'index',
+		callbacks: {
+			label: function(tooltipItem, myData) {
+				var label = myData.datasets[tooltipItem.datasetIndex].label || '';
+				if (label) {
+					label += ': ';
+				}
+				label += parseFloat(tooltipItem.value).toFixed(2);
+				return label;
+			}
+		}
+	}
+};
 function setConnected(connected) {
 	$("#connect").prop("disabled", connected);
 	$("#disconnect").prop("disabled", !connected);
@@ -87,19 +163,13 @@ function initChart()
 function initiChart()
 {
 	
-	ictx = document.getElementById("idiscChart");
+	ictx = document.getElementById("idiscChart").getContext('2d');
+	ictx.canvas.width = 1000;
+	ictx.canvas.height = 300;
 	idiscChart = new Chart(ictx, {
-	    type: 'bubble',
-	    data: {datasets:[]},
-		  options: {
-			  
-			    scales: {
-			      xAxes: [{
-			        type: 'time',
-			        distribution: 'series'
-			      }]
-			    }
-			  }
+	    type: 'line',
+	    data: {labels:[], datasets:[]},
+		options: lineChartOptions
 	});
 
 
@@ -124,8 +194,8 @@ function connect() {
 
 			});
 			stompClient.send("/app/register", {}, {});
-			initChart();
-			initiChart();
+			//initChart();
+			//initiChart();
 			
 		/*
 		 * setTimeout(function() { {
@@ -242,11 +312,12 @@ function oniMessageReceived(payload) {
 	var category = messageObj.category
 	var discountApplied = messageObj.discountApplied;
 	var timestamp = messageObj.timestamp;
+	var fromattedtimestamp = messageObj.formattedTimestamp;
 	
 	if (windowediData === null) {
 		
 		initiChart();
-
+		windowediData = messageObj;
 	} 
 	
 	if ($("#i" + category + "").length) {
@@ -256,20 +327,37 @@ function oniMessageReceived(payload) {
 		});
 		
 		$("#idatats_" + category + "").fadeOut(function() {
-			$(this).text(timestamp).fadeIn();
+			$(this).text(fromattedtimestamp).fadeIn();
 		});
 
 	} else {
 		$("#imessages").append(
 				"<tr id='i" + category + "'><td>" + category
 						+ "</td><td id=idata_" + category + ">" + discountApplied
-						+ "</td><td id=idatats_"+category +">"+timestamp+"</td></tr>");
+						+ "</td><td id=idatats_"+category +">"+fromattedtimestamp+"</td></tr>");
 	}
 	
-	 var ds = { label:[category],data:[{x: new Date(), y: discountApplied, r: 20}] };
-
 	
-	 idiscChart.data.datasets.push(ds);
+	var ds = {'x': new Date(timestamp), 'y': discountApplied}
+	 var labelIndex = idiscChart.data.labels.indexOf(category);
+	
+	if (labelIndex === -1)
+	{
+		idiscChart.data.labels.push(category);
+		var ds = { 'label':category, 'borderColor': borderColorPallet[idiscChart.data.labels.length + 1] ,'data': [ds] };
+		ds.pointRadius = 0;
+		ds.fill = false;
+		lineTension =  0;
+		borderWidth = 2
+		idiscChart.data.datasets.push(ds);
+	}
+	else
+	{
+		var child = idiscChart.data.datasets[labelIndex];
+		child.data.push(ds);
+		// idiscChart.data.datasets.splice(labelIndex,0,child);
+	}
+	
 	 idiscChart.update();	
 	
 }
@@ -283,7 +371,7 @@ $(function() {
 	});
 	$("#disconnect").click(function() {
 		disconnect();
-	});
+	});	
 	$("#send").click(function() {
 		sendMessage();
 	});

@@ -69,7 +69,7 @@ public class DiscountStreamProcessors {
 
 				bbi.setCategory(k);
 				bbi.setDiscountApplied(v.getMrp() - v.getDrp());
-				bbi.setTimestamp(new Date(v.getTimestamp()));
+				bbi.setTimestamp(v.getTimestamp());
 				dsps.pipeToWebInstanceSocket(bbi);
 
 			});
