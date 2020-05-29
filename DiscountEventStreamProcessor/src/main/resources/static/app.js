@@ -54,7 +54,7 @@ var lineChartOptions = 	{
 			{
 			type: "time",
 			time: {
-				unit: 'minute',
+				unit: 'second',
 				unitStepSize: 1,
                 displayFormats: {
                     second: 'h:mm:ss a'
@@ -167,9 +167,10 @@ function initChart()
 		      xAxes: [{
 		        ticks: {
 		        	maxRotation: 90,
-		        	minRotation: 80
+		        	minRotation: 5,
+		        	fontSize: 7
 		        },
-		        
+		       
 				scaleLabel: {
 					display: true,
 					labelString: 'Category'
@@ -382,12 +383,13 @@ function oniMessageReceived(payload) {
 	if (labelIndex === -1)
 	{
 		idiscChart.data.labels.push(category);
-		var ds = {'label':category, 'borderColor': borderColorPallet[idiscChart.data.labels.length + 1] ,'data': [ds] };
-		ds.pointRadius = 0;
-		ds.fill = false;
+		var dso = {'label':category,'borderWidth': 1, 'borderColor': borderColorPallet[idiscChart.data.labels.length + 1],
+					'data': [ds] };
+		dso.pointRadius = 0;
+		dso.fill = false;
 		lineTension =  0;
 		borderWidth = 2
-		idiscChart.data.datasets.push(ds);
+		idiscChart.data.datasets.push(dso);
 	}
 	else
 	{
