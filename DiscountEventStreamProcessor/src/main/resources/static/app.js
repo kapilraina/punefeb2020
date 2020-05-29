@@ -40,7 +40,11 @@ var borderColorPallet = [
   ];
 
 var lineChartOptions = 	{
-	bounds: 'ticks',
+	title:      {
+        display: true,
+        text:    "Discount Time Scale"
+    },
+	bounds: 'data',
 	responsive: false,
 	animation: {
 		duration: 0
@@ -50,9 +54,18 @@ var lineChartOptions = 	{
 			{
 			type: "time",
 			time: {
-					displayFormats: { minute : 'h:mm a' }
-                },
+				unit: 'minute',
+				unitStepSize: 1,
+                displayFormats: {
+                    second: 'h:mm:ss a'
+                }
+            },
+			
 			distribution: 'series',
+			scaleLabel: {
+				display: true,
+				labelString: '--> Time'
+			},
 			 offset: true,
 			 ticks: {
 				 major: {
@@ -369,7 +382,7 @@ function oniMessageReceived(payload) {
 	if (labelIndex === -1)
 	{
 		idiscChart.data.labels.push(category);
-		var ds = { 'label':category, 'borderColor': borderColorPallet[idiscChart.data.labels.length + 1] ,'data': [ds] };
+		var ds = {'label':category, 'borderColor': borderColorPallet[idiscChart.data.labels.length + 1] ,'data': [ds] };
 		ds.pointRadius = 0;
 		ds.fill = false;
 		lineTension =  0;
@@ -379,6 +392,8 @@ function oniMessageReceived(payload) {
 	else
 	{
 		var child = idiscChart.data.datasets[labelIndex];
+		if(child.data.length > 1000)
+			child.data = [];
 		child.data.push(ds);
 		// idiscChart.data.datasets.splice(labelIndex,0,child);
 	}
