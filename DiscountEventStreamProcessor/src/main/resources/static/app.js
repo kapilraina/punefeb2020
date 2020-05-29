@@ -40,26 +40,33 @@ var borderColorPallet = [
   ];
 
 var lineChartOptions = 	{
+	bounds: 'ticks',
+	responsive: false,
 	animation: {
 		duration: 0
 	},
 	scales: {
-		xAxes: [{
-			type: 'time',
+		xAxes: [
+			{
+			type: "time",
+			time: {
+					displayFormats: { minute : 'h:mm a' }
+                },
 			distribution: 'series',
-			offset: true,
-			ticks: {
-				major: {
-					enabled: true,
-					fontStyle: 'bold'
-				},
-				source: 'data',
-				autoSkip: true,
-				autoSkipPadding: 75,
-				maxRotation: 0,
-				sampleSize: 100
-			}
-		}],
+			 offset: true,
+			 ticks: {
+				 major: {
+				 enabled: true,
+				 fontStyle: 'bold'
+				 },
+				 source: 'data',
+				 autoSkip: true,
+				 autoSkipPadding: 75,
+				 maxRotation: 0,
+				 sampleSize: 100
+			 }
+		}
+			],
 		yAxes: [{
 			gridLines: {
 				drawBorder: false
@@ -99,8 +106,11 @@ function setConnected(connected) {
 function initChart()
 {
 	
-	ctx = document.getElementById("discChart");
+	ctx = document.getElementById("discChart").getContext('2d');
 	discChart = new Chart(ctx, {
+		animation: {
+			duration: 0
+		},
 		  type: 'bar',
 		  data: {
 		    labels: [],
@@ -143,14 +153,31 @@ function initChart()
 		    scales: {
 		      xAxes: [{
 		        ticks: {
-		      // maxRotation: 90,
-		      // minRotation: 80
-		        }
+		        	maxRotation: 90,
+		        	minRotation: 80
+		        },
+		        
+				scaleLabel: {
+					display: true,
+					labelString: 'Category'
+				},
+				legend: {
+				      display: false,
+				      position: 'bottom',
+				      labels: {
+				        fontColor: "#000080",
+				      }
+				}
 		      }],
 		      yAxes: [{
 		        ticks: {
-		       // beginAtZero: true
-		        }
+		        beginAtZero: true
+		        },
+				scaleLabel: {
+					display: true,
+					labelString: 'Aggregated Discount Applied'
+				}
+		        
 		      }]
 		    }
 		  }
@@ -164,8 +191,6 @@ function initiChart()
 {
 	
 	ictx = document.getElementById("idiscChart").getContext('2d');
-	ictx.canvas.width = 1000;
-	ictx.canvas.height = 300;
 	idiscChart = new Chart(ictx, {
 	    type: 'line',
 	    data: {labels:[], datasets:[]},
@@ -194,8 +219,8 @@ function connect() {
 
 			});
 			stompClient.send("/app/register", {}, {});
-			//initChart();
-			//initiChart();
+			// initChart();
+			// initiChart();
 			
 		/*
 		 * setTimeout(function() { {
